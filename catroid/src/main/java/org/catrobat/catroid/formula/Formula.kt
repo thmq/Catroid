@@ -43,7 +43,7 @@ class Formula() : BrickFieldObject, Serializable {
 
     override fun getDisplayText(resources: Resources) = FormulaTextProvider(resources).getText(tokens)
 
-    override fun clone(): BrickFieldObject {
+    override fun clone(): Formula {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

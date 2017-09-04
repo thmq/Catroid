@@ -36,8 +36,7 @@ object SensorListener {
         DATE_YEAR, DATE_MONTH, DATE_DAY,
         HOUR, MINUTE, SECOND
     }
-
-
+    
     private val accelerationListener = AccelerationListener()
     private val rotationListener  = RotationListener()
 

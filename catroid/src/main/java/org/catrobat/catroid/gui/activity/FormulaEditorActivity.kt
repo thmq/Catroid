@@ -29,7 +29,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formula.FormulaInterpreter
 import org.catrobat.catroid.formula.Token
@@ -50,12 +53,23 @@ class FormulaEditorActivity : AppCompatActivity() {
         supportActionBar?.setTitle(R.string.formula_editor_title)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        findViewById(R.id.edit_text)?.setOnTouchListener { v, event ->
+            val imm = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(v?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            (v as EditText).setSelection(v.getOffsetForPosition(event.x, event.y))
+            true
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.formula_editor_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean = when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
         R.id.btnSave -> {
             finish()
             true
@@ -108,6 +122,7 @@ class FormulaEditorActivity : AppCompatActivity() {
         }
 
         inputField?.setText(FormulaTextProvider(resources).getText(tokens))
+        inputField?.setSelection(inputField.text.length)
     }
 
     private fun appendDigit(digit: Char) {
