@@ -36,7 +36,7 @@ class PlaceAtBrick(val setX: Formula, val setY: Formula) : Brick(R.layout.place_
 
     init {
         brickFields.put(R.id.brick_place_at_x, setX)
-		brickFields.put(R.id.brick_place_at_y, setY)
+        brickFields.put(R.id.brick_place_at_y, setY)
     }
 
     override fun getAction(): Action {

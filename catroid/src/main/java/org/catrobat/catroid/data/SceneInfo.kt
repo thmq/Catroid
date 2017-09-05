@@ -21,22 +21,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.data.brick;
+package org.catrobat.catroid.data
 
-import android.view.View
-import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.copypaste.ClipboardItem
+import org.catrobat.catroid.gui.adapter.ListItem
 import org.catrobat.catroid.storage.DirectoryPathInfo
-import java.io.Serializable
+import java.io.IOException
+import java.util.*
 
-abstract class Brick(val layoutId: Int) : Serializable, ClipboardItem, View.OnClickListener {
+class SceneInfo(override var name: String, var directoryPathInfo: DirectoryPathInfo) : ListItem {
 
-    val brickFields = HashMap<Int, BrickField>()
+    val sprites = ArrayList<SpriteInfo>()
 
-    abstract fun getAction(): Action
+    @Throws(CloneNotSupportedException::class)
+    override fun clone(): SceneInfo {
+        val clone = SceneInfo(name, DirectoryPathInfo(directoryPathInfo.parent, directoryPathInfo.relativePath))
 
-    abstract override fun clone(): Brick
-
-    override fun copyResourcesToDirectory(directoryPathInfo: DirectoryPathInfo) {
+        sprites.forEach { sprite -> clone.sprites.add(sprite.clone()) }
+        return clone
     }
+
+    @Throws(IOException::class)
+    override fun copyResourcesToDirectory(directoryPathInfo: DirectoryPathInfo) {
+        this.directoryPathInfo = directoryPathInfo
+
+        sprites.forEach { sprite -> sprite.copyResourcesToDirectory(directoryPathInfo) }
+    }
+
+    @Throws(IOException::class)
+    override fun removeResources() {
+        for (sprite in sprites) sprite.removeResources()
+    }
+
+    fun getSpriteByName(name: String) = sprites.first { it.name == name }
 }

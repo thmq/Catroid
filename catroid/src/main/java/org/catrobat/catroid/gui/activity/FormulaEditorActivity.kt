@@ -29,7 +29,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -38,7 +37,7 @@ import org.catrobat.catroid.formula.FormulaInterpreter
 import org.catrobat.catroid.formula.Token
 import org.catrobat.catroid.formula.operator.BinaryOperatorToken
 import org.catrobat.catroid.formula.operator.OperatorToken
-import org.catrobat.catroid.formula.stringprovider.FormulaTextProvider
+import org.catrobat.catroid.formula.textprovider.FormulaTextProvider
 import org.catrobat.catroid.formula.value.ValueToken
 
 class FormulaEditorActivity : AppCompatActivity() {
@@ -80,55 +79,79 @@ class FormulaEditorActivity : AppCompatActivity() {
 
     fun handleEditorButton(view: View) {
 
-        (findViewById(R.id.input) as TextInputLayout).error = null
-        (findViewById(R.id.input) as TextInputLayout).hint = null
+        val inputLayout = (findViewById(R.id.input) as TextInputLayout)
+        val inputField = inputLayout.editText
 
-        val inputField = (findViewById(R.id.input) as TextInputLayout).editText
+        inputLayout.error = null
+        inputLayout.hint = null
+
+        val cursorPosition = inputField?.selectionStart ?: 0
 
         when (view.id) {
-            R.id.btn0 -> appendDigit('0')
-            R.id.btn1 -> appendDigit('1')
-            R.id.btn2 -> appendDigit('2')
-            R.id.btn3 -> appendDigit('3')
-            R.id.btn4 -> appendDigit('4')
-            R.id.btn5 -> appendDigit('5')
-            R.id.btn6 -> appendDigit('6')
-            R.id.btn7 -> appendDigit('7')
-            R.id.btn8 -> appendDigit('8')
-            R.id.btn9 -> appendDigit('9')
+            R.id.btn0 -> appendDigit(cursorPosition, '0')
+            R.id.btn1 -> appendDigit(cursorPosition, '1')
+            R.id.btn2 -> appendDigit(cursorPosition, '2')
+            R.id.btn3 -> appendDigit(cursorPosition, '3')
+            R.id.btn4 -> appendDigit(cursorPosition, '4')
+            R.id.btn5 -> appendDigit(cursorPosition, '5')
+            R.id.btn6 -> appendDigit(cursorPosition, '6')
+            R.id.btn7 -> appendDigit(cursorPosition, '7')
+            R.id.btn8 -> appendDigit(cursorPosition, '8')
+            R.id.btn9 -> appendDigit(cursorPosition, '9')
 
-            R.id.btnDecimal -> appendDigit('.')
+            R.id.btnDecimal -> appendDigit(cursorPosition, '.')
 
-            R.id.btnAdd -> tokens.add(BinaryOperatorToken.AddOperatorToken())
-            R.id.btnSub -> tokens.add(BinaryOperatorToken.SubOperatorToken())
-            R.id.btnMult -> tokens.add(BinaryOperatorToken.MultOperatorToken())
-            R.id.btnDiv -> tokens.add(BinaryOperatorToken.DivOperatorToken())
+            R.id.btnAdd -> addToken(cursorPosition, BinaryOperatorToken.AddOperatorToken())
+            R.id.btnSub -> addToken(cursorPosition, BinaryOperatorToken.SubOperatorToken())
+            R.id.btnMult -> addToken(cursorPosition, BinaryOperatorToken.MultOperatorToken())
+            R.id.btnDiv -> addToken(cursorPosition, BinaryOperatorToken.DivOperatorToken())
 
-            R.id.btnBracketOpen -> tokens.add(OperatorToken.BracketOperator(Token.Type.LEFT_BRACKET))
-            R.id.btnBracketClose -> tokens.add(OperatorToken.BracketOperator(Token.Type.RIGHT_BRACKET))
+            R.id.btnBracketOpen -> addToken(cursorPosition,
+                    OperatorToken.BracketOperator(Token.Type.LEFT_BRACKET))
+            R.id.btnBracketClose -> addToken(cursorPosition,
+                    OperatorToken.BracketOperator(Token.Type.RIGHT_BRACKET))
 
-            R.id.btnEquals -> tokens.add(BinaryOperatorToken.EqualsOperatorToken())
+            R.id.btnEquals -> addToken(cursorPosition, BinaryOperatorToken.EqualsOperatorToken())
 
-            R.id.btnBack -> if (tokens.isNotEmpty()) removeToken(tokens.last())
+            R.id.btnBack -> if (tokens.isNotEmpty()) {
+                removeToken(FormulaTextProvider(resources).getTokenAtPosition(tokens, cursorPosition))
+            }
 
             R.id.btnCompute -> {
                 try {
-                    (findViewById(R.id.input) as TextInputLayout).hint =
-                            FormulaInterpreter().eval(tokens).getString()
+                    inputLayout.hint = FormulaInterpreter().eval(tokens).getString()
                 } catch (exception: Exception) {
-                    (findViewById(R.id.input) as TextInputLayout).error = getString(R.string.fe_parser_error)
+                    inputLayout.error = getString(R.string.fe_parser_error)
                 }
             }
         }
 
-        inputField?.setText(FormulaTextProvider(resources).getText(tokens))
-        inputField?.setSelection(inputField.text.length)
+        val formulaText = FormulaTextProvider(resources).getText(tokens)
+        val cursorOffset = formulaText.length - (inputField?.text?.length ?: 0)
+
+        inputField?.setText(formulaText)
+        inputField?.setSelection(cursorPosition + cursorOffset)
     }
 
-    private fun appendDigit(digit: Char) {
-        if (tokens.isEmpty() || tokens.last() !is ValueToken) tokens.add(ValueToken(0.0))
+    private fun appendDigit(cursorPosition: Int, digit: Char) {
+        if (cursorPosition == 0) tokens.add(0, ValueToken(0.0))
 
-        (tokens.last() as ValueToken).appendDigit(digit)
+        val textProvider = FormulaTextProvider(resources)
+        var tokenToEdit = textProvider.getTokenAtPosition(tokens, cursorPosition)
+
+        if (tokenToEdit !is ValueToken) {
+            tokenToEdit = ValueToken(0.0)
+            addToken(cursorPosition, tokenToEdit)
+        }
+
+        (tokenToEdit).appendDigit(digit)
+    }
+
+    private fun addToken(cursorPosition: Int, token: Token) {
+        if (cursorPosition == 0) tokens.add(0, token) else {
+            tokens.add(FormulaTextProvider(resources).getTokenPosition(tokens, cursorPosition) + 1,
+                    token)
+        }
     }
 
     private fun removeToken(token: Token) {

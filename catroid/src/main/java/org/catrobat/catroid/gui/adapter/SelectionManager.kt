@@ -21,11 +21,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.data.brick
+package org.catrobat.catroid.gui.adapter
 
-import android.content.res.Resources
+import java.util.*
 
-interface BrickField : Cloneable {
+class SelectionManager {
 
-    fun getDisplayText(resources: Resources): String
+    val selectedPositions = TreeSet<Int>()
+
+    val selectionActive
+        get() = !selectedPositions.isEmpty()
+
+    fun isSelected(position: Int) = selectedPositions.contains(position)
+
+    fun toggle(position: Int) {
+        if (selectedPositions.contains(position)) {
+            selectedPositions.remove(position)
+        } else {
+            selectedPositions.add(position)
+        }
+    }
+    
+    fun clear() {
+        selectedPositions.clear()
+    }
+    
+    fun updatePosition(from: Int, to: Int) {
+        if (selectedPositions.contains(from) && !selectedPositions.contains(to)) {
+            selectedPositions.remove(from)
+            selectedPositions.add(to)
+            return
+        }
+
+        if (selectedPositions.contains(to) && !selectedPositions.contains(from)) {
+            selectedPositions.remove(to)
+            selectedPositions.add(from)
+        }
+    }
 }

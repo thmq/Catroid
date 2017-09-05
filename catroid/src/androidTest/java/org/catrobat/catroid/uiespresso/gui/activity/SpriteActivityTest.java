@@ -124,53 +124,53 @@ public class SpriteActivityTest {
 		assertFalse(sprite0.getSounds().contains(soundToDelete));
 		deletedFilenames.add(soundToDelete.getFilePathInfo().getRelativePath());
 
-		File projectFolder = new File(project.getDirectoryInfo().getAbsolutePath());
+		File projectFolder = new File(project.getDirectoryPathInfo().getAbsolutePath());
 		assertFalse(StorageUtil.directoryContains(projectFolder, deletedFilenames));
 	}
 
 	private void createProject() throws Exception {
 		project = new ProjectInfo("Test");
 
-		SceneInfo scene0 = new SceneInfo("Scene 0", project.getDirectoryInfo());
-		sprite0 = new SpriteInfo("Sprite 0", project.getDirectoryInfo());
+		SceneInfo scene0 = new SceneInfo("Scene 0", project.getDirectoryPathInfo());
+		sprite0 = new SpriteInfo("Sprite 0", project.getDirectoryPathInfo());
 
 		lookToDelete = new LookInfo("Look 0", StorageManager.saveDrawableToSDCard(R.drawable
 				.default_project_bird_wing_up,
-				project.getDirectoryInfo(),
+				project.getDirectoryPathInfo(),
 				InstrumentationRegistry.getTargetContext()));
 
-		sprite0.addLook(lookToDelete);
+		sprite0.getLooks().add(lookToDelete);
 
-		sprite0.addLook(new LookInfo("Look 1", StorageManager.saveDrawableToSDCard(R.drawable
+		sprite0.getLooks().add(new LookInfo("Look 1", StorageManager.saveDrawableToSDCard(R.drawable
 				.default_project_bird_wing_up,
-				project.getDirectoryInfo(),
+				project.getDirectoryPathInfo(),
 				InstrumentationRegistry.getTargetContext()
 		)));
 
-		sprite0.addLook(new LookInfo("Look 2", StorageManager.saveDrawableToSDCard(R.drawable
+		sprite0.getLooks().add(new LookInfo("Look 2", StorageManager.saveDrawableToSDCard(R.drawable
 				.default_project_bird_wing_up,
-				project.getDirectoryInfo(),
+				project.getDirectoryPathInfo(),
 				InstrumentationRegistry.getTargetContext())));
 
 		soundToDelete = new SoundInfo("Sound 0", StorageManager.saveSoundResourceToSDCard(R.raw
 				.default_project_tweet_1,
-				project.getDirectoryInfo(),
+				project.getDirectoryPathInfo(),
 				InstrumentationRegistry.getTargetContext()));
 
-		sprite0.addSound(soundToDelete);
+		sprite0.getSounds().add(soundToDelete);
 
-		sprite0.addSound(new SoundInfo("Sound 1", StorageManager.saveSoundResourceToSDCard(R.raw
+		sprite0.getSounds().add(new SoundInfo("Sound 1", StorageManager.saveSoundResourceToSDCard(R.raw
 				.default_project_tweet_1,
-				project.getDirectoryInfo(),
+				project.getDirectoryPathInfo(),
 				InstrumentationRegistry.getTargetContext())));
 
-		sprite0.addSound(new SoundInfo("Sound 2", StorageManager.saveSoundResourceToSDCard(R.raw
+		sprite0.getSounds().add(new SoundInfo("Sound 2", StorageManager.saveSoundResourceToSDCard(R.raw
 				.default_project_tweet_1,
-				project.getDirectoryInfo(),
+				project.getDirectoryPathInfo(),
 				InstrumentationRegistry.getTargetContext())));
 
-		scene0.addSprite(sprite0);
-		project.addScene(scene0);
+		scene0.getSprites().add(sprite0);
+		project.getScenes().add(scene0);
 
 		ProjectHolder.getInstance().setCurrentProject(project);
 	}

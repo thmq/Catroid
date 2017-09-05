@@ -131,18 +131,18 @@ public class SpriteListTest {
 	private void createProject() throws Exception {
 		ProjectInfo project = new ProjectInfo("Test");
 
-		scene = new SceneInfo("Scene 0", new DirectoryPathInfo(project.getDirectoryInfo(), ""));
-		SpriteInfo sprite0 = new SpriteInfo("Sprite 0", new DirectoryPathInfo(project.getDirectoryInfo(), ""));
-		SpriteInfo sprite1 = new SpriteInfo("Sprite 1", new DirectoryPathInfo(project.getDirectoryInfo(), ""));
-		SpriteInfo sprite2 = new SpriteInfo("Sprite 2", new DirectoryPathInfo(project.getDirectoryInfo(), ""));
-		SpriteInfo sprite3 = new SpriteInfo("Sprite 3", new DirectoryPathInfo(project.getDirectoryInfo(), ""));
+		scene = new SceneInfo("Scene 0", new DirectoryPathInfo(project.getDirectoryPathInfo(), ""));
+		SpriteInfo sprite0 = new SpriteInfo("Sprite 0", new DirectoryPathInfo(project.getDirectoryPathInfo(), ""));
+		SpriteInfo sprite1 = new SpriteInfo("Sprite 1", new DirectoryPathInfo(project.getDirectoryPathInfo(), ""));
+		SpriteInfo sprite2 = new SpriteInfo("Sprite 2", new DirectoryPathInfo(project.getDirectoryPathInfo(), ""));
+		SpriteInfo sprite3 = new SpriteInfo("Sprite 3", new DirectoryPathInfo(project.getDirectoryPathInfo(), ""));
 
-		scene.addSprite(sprite0);
-		scene.addSprite(sprite1);
-		scene.addSprite(sprite2);
-		scene.addSprite(sprite3);
+		scene.getSprites().add(sprite0);
+		scene.getSprites().add(sprite1);
+		scene.getSprites().add(sprite2);
+		scene.getSprites().add(sprite3);
 
-		project.addScene(scene);
+		project.getScenes().add(scene);
 
 		ProjectHolder.getInstance().setCurrentProject(project);
 

@@ -21,29 +21,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.gui.adapter;
+package org.catrobat.catroid.gui.adapter
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.RecyclerView.ViewHolder
+import android.support.v7.widget.helper.ItemTouchHelper
 
-import org.catrobat.catroid.copypaste.ClipboardItem;
+class TouchHelperCallback(private val adapterInterface: AdapterInterface) :
+        ItemTouchHelper.Callback() {
 
-import java.io.IOException;
+    interface AdapterInterface {
 
-public interface ListItem extends ClipboardItem {
+        fun onItemMove(from: Int, to: Int): Boolean
+    }
 
-	int THUMBNAIL_WIDTH = 120;
-	int THUMBNAIL_HEIGHT = 120;
+    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
+        val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, 0)
+    }
 
-	Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
+    override fun onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder)
+            = adapterInterface.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
 
-	String getName();
+    override fun isLongPressDragEnabled() = false
 
-	void setName(String name);
-
-	void createThumbnail();
-
-	Drawable getThumbnail();
-
-	void removeResources() throws IOException;
+    override fun onSwiped(viewHolder: ViewHolder, direction: Int) {}
 }

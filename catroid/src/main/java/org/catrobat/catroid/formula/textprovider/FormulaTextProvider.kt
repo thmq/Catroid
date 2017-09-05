@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formula.stringprovider
+package org.catrobat.catroid.formula.textprovider
 
 import android.content.res.Resources
 import org.catrobat.catroid.R
@@ -42,6 +42,28 @@ class FormulaTextProvider(val resources: Resources) {
         }
 
         return string.trim()
+    }
+
+    fun getTokenAtPosition(tokens: List<Token>, position: Int): Token {
+        var textLength = 0
+
+        for (token in tokens) {
+            textLength += getText(token).length + 1
+            if (textLength >= position) return token
+        }
+
+        return tokens.last()
+    }
+
+    fun getTokenPosition(tokens: List<Token>, position: Int): Int {
+        var textLength = 0
+
+        for (token in tokens) {
+            textLength += getText(token).length + 1
+            if (textLength >= position) return tokens.indexOf(token)
+        }
+
+        return 0
     }
 
     private fun getText(token: Token) = when (token.type) {

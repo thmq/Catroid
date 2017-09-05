@@ -37,6 +37,7 @@ class DataProvider {
 
     fun remove(variable: VariableToken) {
         variable.name = "INVALID REFERENCE: " + variable.name
+        variable.value = 0.0
         values.remove(variable)
     }
 

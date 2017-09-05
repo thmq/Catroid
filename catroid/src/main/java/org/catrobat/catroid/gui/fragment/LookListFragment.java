@@ -67,7 +67,7 @@ public class LookListFragment extends RecyclerViewListFragment<LookInfo> {
 
 	@Override
 	protected RecyclerViewAdapter<LookInfo> createAdapter() {
-		return new RecyclerViewAdapter<>(sprite.getLooks());
+		return new RecyclerViewAdapter<>(sprite.getLooks(), this, this);
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class LookListFragment extends RecyclerViewListFragment<LookInfo> {
 
 	@Override
 	protected DirectoryPathInfo getCurrentDirectory() {
-		return sprite.getDirectoryInfo();
+		return sprite.getDirectoryPathInfo();
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class LookListFragment extends RecyclerViewListFragment<LookInfo> {
 		try {
 			FilePathInfo lookFile = StorageManager.createEmptyPngOnSDCard(400, 400, getCurrentDirectory());
 			editWithPocketPaint(lookFile);
-			adapter.addItem(new LookInfo(name, lookFile));
+			adapter.add(new LookInfo(name, lookFile));
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}

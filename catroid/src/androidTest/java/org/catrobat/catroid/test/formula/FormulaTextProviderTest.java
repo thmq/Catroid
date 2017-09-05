@@ -31,7 +31,7 @@ import org.catrobat.catroid.formula.operator.BinaryOperatorToken.AddOperatorToke
 import org.catrobat.catroid.formula.operator.BinaryOperatorToken.DivOperatorToken;
 import org.catrobat.catroid.formula.operator.BinaryOperatorToken.MultOperatorToken;
 import org.catrobat.catroid.formula.operator.BinaryOperatorToken.SubOperatorToken;
-import org.catrobat.catroid.formula.stringprovider.FormulaTextProvider;
+import org.catrobat.catroid.formula.textprovider.FormulaTextProvider;
 import org.catrobat.catroid.formula.value.ValueToken;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -50,50 +50,50 @@ public final class ProjectCreator {
 	public static ProjectInfo createDefaultProject(String name, Context context) throws IOException {
 		ProjectInfo project = new ProjectInfo(name);
 
-		SceneInfo scene0 = new SceneInfo("Scene 0", project.getDirectoryInfo());
-		SceneInfo scene1 = new SceneInfo("Scene 1", project.getDirectoryInfo());
+		SceneInfo scene0 = new SceneInfo("Scene 0", project.getDirectoryPathInfo());
+		SceneInfo scene1 = new SceneInfo("Scene 1", project.getDirectoryPathInfo());
 
-		SpriteInfo background = new SpriteInfo("Background", project.getDirectoryInfo());
-		SpriteInfo bird = new SpriteInfo("Bird", project.getDirectoryInfo());
-		SpriteInfo cloud0 = new SpriteInfo("Clouds 1", project.getDirectoryInfo());
-		SpriteInfo cloud1 = new SpriteInfo("Clouds 2", project.getDirectoryInfo());
+		SpriteInfo background = new SpriteInfo("Background", project.getDirectoryPathInfo());
+		SpriteInfo bird = new SpriteInfo("Bird", project.getDirectoryPathInfo());
+		SpriteInfo cloud0 = new SpriteInfo("Clouds 1", project.getDirectoryPathInfo());
+		SpriteInfo cloud1 = new SpriteInfo("Clouds 2", project.getDirectoryPathInfo());
 
 		LookInfo look0 = new LookInfo("Background", StorageManager.saveDrawableToSDCard(R.drawable
-				.default_project_background_portrait, project.getDirectoryInfo(), context));
+				.default_project_background_portrait, project.getDirectoryPathInfo(), context));
 		LookInfo look1 = new LookInfo("Bird wings up", StorageManager.saveDrawableToSDCard(R.drawable
-				.default_project_bird_wing_up, project.getDirectoryInfo(), context));
+				.default_project_bird_wing_up, project.getDirectoryPathInfo(), context));
 		LookInfo look2 = new LookInfo("Bird wings down", StorageManager.saveDrawableToSDCard(R.drawable
-				.default_project_bird_wing_down, project.getDirectoryInfo(), context));
+				.default_project_bird_wing_down, project.getDirectoryPathInfo(), context));
 		LookInfo look3 = new LookInfo("Cloud 1", StorageManager.saveDrawableToSDCard(R.drawable
-				.default_project_clouds_portrait, project.getDirectoryInfo(), context));
+				.default_project_clouds_portrait, project.getDirectoryPathInfo(), context));
 		LookInfo look4 = new LookInfo("Cloud 2", StorageManager.saveDrawableToSDCard(R.drawable
-				.default_project_clouds_portrait, project.getDirectoryInfo(), context));
+				.default_project_clouds_portrait, project.getDirectoryPathInfo(), context));
 
-		bird.addBrick(new WhenStartedBrick());
-		bird.addBrick(new SetXBrick(new Formula(100)));
-		bird.addBrick(new SetLookBrick(look1));
-		bird.addBrick(new PlaceAtBrick(new Formula(50), new Formula(60)));
+		bird.getBricks().add(new WhenStartedBrick());
+		bird.getBricks().add(new SetXBrick(new Formula(100)));
+		bird.getBricks().add(new SetLookBrick(look1));
+		bird.getBricks().add(new PlaceAtBrick(new Formula(50), new Formula(60)));
 
-		background.addLook(look0);
+		background.getLooks().add(look0);
 
-		bird.addLook(look1);
-		bird.addLook(look2);
+		bird.getLooks().add(look1);
+		bird.getLooks().add(look2);
 
-		bird.addSound(new SoundInfo("Tweet 1", StorageManager.saveSoundResourceToSDCard(R.raw.default_project_tweet_1,
-				project.getDirectoryInfo(), context)));
-		bird.addSound(new SoundInfo("Tweet 2", StorageManager.saveSoundResourceToSDCard(R.raw.default_project_tweet_2,
-				project.getDirectoryInfo(), context)));
+		bird.getSounds().add(new SoundInfo("Tweet 1", StorageManager.saveSoundResourceToSDCard(R.raw
+						.default_project_tweet_1, project.getDirectoryPathInfo(), context)));
+		bird.getSounds().add(new SoundInfo("Tweet 2", StorageManager.saveSoundResourceToSDCard(R.raw
+						.default_project_tweet_2, project.getDirectoryPathInfo(), context)));
 
-		cloud0.addLook(look3);
-		cloud1.addLook(look4);
+		cloud0.getLooks().add(look3);
+		cloud1.getLooks().add(look4);
 
-		scene0.addSprite(background);
-		scene0.addSprite(bird);
-		scene0.addSprite(cloud0);
-		scene0.addSprite(cloud1);
+		scene0.getSprites().add(background);
+		scene0.getSprites().add(bird);
+		scene0.getSprites().add(cloud0);
+		scene0.getSprites().add(cloud1);
 
-		project.addScene(scene0);
-		project.addScene(scene1);
+		project.getScenes().add(scene0);
+		project.getScenes().add(scene1);
 
 		ProjectHolder.getInstance().serialize(project);
 

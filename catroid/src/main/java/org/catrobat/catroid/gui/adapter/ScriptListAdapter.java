@@ -39,13 +39,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ScriptListAdapter extends RecyclerView.Adapter<BrickViewHolder> implements TouchHelperAdapterInterface {
+public class ScriptListAdapter extends RecyclerView.Adapter<BrickViewHolder>
+		implements TouchHelperCallback.AdapterInterface {
 
 	public static final String TAG = ScriptListAdapter.class.getSimpleName();
 
 	private List<Brick> bricks = new ArrayList<>();
 
-	private MultiSelectionManager selectionManager = new MultiSelectionManager();
+	private SelectionManager selectionManager = new SelectionManager();
 	private SelectionListener selectionListener;
 
 	private ReorderItemInterface reorderItemInterface;
@@ -73,7 +74,7 @@ public class ScriptListAdapter extends RecyclerView.Adapter<BrickViewHolder> imp
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (selectionManager.isSelectionActive()) {
+				if (selectionManager.getSelectionActive()) {
 					handleItemSelection(holder.getAdapterPosition(), holder);
 				}
 			}
@@ -95,13 +96,13 @@ public class ScriptListAdapter extends RecyclerView.Adapter<BrickViewHolder> imp
 			}
 		});
 
-		holder.updateBackground(selectionManager.isPositionSelected(holder.getAdapterPosition()));
+		holder.updateBackground(selectionManager.isSelected(holder.getAdapterPosition()));
 	}
 
 	private void handleItemSelection(int itemPosition, BrickViewHolder holder) {
-		selectionManager.toggleSelection(itemPosition);
-		selectionListener.onSelectionChanged(selectionManager.isSelectionActive());
-		holder.updateBackground(selectionManager.isPositionSelected(itemPosition));
+		selectionManager.toggle(itemPosition);
+		selectionListener.onSelectionChanged(selectionManager.getSelectionActive());
+		holder.updateBackground(selectionManager.isSelected(itemPosition));
 	}
 
 	@Override
@@ -122,14 +123,14 @@ public class ScriptListAdapter extends RecyclerView.Adapter<BrickViewHolder> imp
 		Collections.swap(bricks, fromPosition, toPosition);
 		notifyItemMoved(fromPosition, toPosition);
 
-		selectionManager.updateSelection(fromPosition, toPosition);
+		selectionManager.updatePosition(fromPosition, toPosition);
 
 		updateProject();
 		return true;
 	}
 
 	public void addItem(Brick brick) throws ArrayIndexOutOfBoundsException {
-		if (selectionManager.isSelectionActive()) {
+		if (selectionManager.getSelectionActive()) {
 			throw new ArrayIndexOutOfBoundsException("ERROR: Cannot Add or Remove items while in multiSelection.");
 		}
 
@@ -139,7 +140,7 @@ public class ScriptListAdapter extends RecyclerView.Adapter<BrickViewHolder> imp
 	}
 
 	public void removeItem(Brick brick) throws ArrayIndexOutOfBoundsException {
-		if (selectionManager.isSelectionActive()) {
+		if (selectionManager.getSelectionActive()) {
 			throw new ArrayIndexOutOfBoundsException("ERROR: Cannot Add or Remove items while in multiSelection.");
 		}
 
@@ -159,7 +160,7 @@ public class ScriptListAdapter extends RecyclerView.Adapter<BrickViewHolder> imp
 	}
 
 	public void clearSelection() {
-		selectionManager.clearSelection();
+		selectionManager.clear();
 		notifyDataSetChanged();
 		updateProject();
 	}

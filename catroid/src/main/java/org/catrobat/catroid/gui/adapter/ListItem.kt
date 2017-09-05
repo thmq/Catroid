@@ -21,11 +21,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.data.brick
+package org.catrobat.catroid.gui.adapter
 
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
+import org.catrobat.catroid.copypaste.ClipboardItem
+import java.io.IOException
 
-interface BrickField : Cloneable {
+interface ListItem : ClipboardItem {
 
-    fun getDisplayText(resources: Resources): String
+    companion object {
+        val bitmapConfig = Bitmap.Config.ARGB_8888
+        const val thumbnailWidth = 120
+        const val thumbnailHeight = 120
+    }
+
+    var name: String
+
+	val thumbnail: Drawable
+        get() {
+            val bitmap = Bitmap.createBitmap(thumbnailWidth, thumbnailHeight, bitmapConfig)
+            bitmap.eraseColor(Color.GRAY)
+            val thumbnail = RoundedBitmapDrawableFactory.create(Resources.getSystem(), bitmap)
+            thumbnail.isCircular = true
+
+            return thumbnail
+        }
+
+    @Throws(IOException::class)
+	fun removeResources()
 }

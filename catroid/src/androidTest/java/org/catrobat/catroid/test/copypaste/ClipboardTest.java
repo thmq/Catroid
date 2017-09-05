@@ -61,40 +61,40 @@ public class ClipboardTest {
 		project0 = new ProjectInfo("Project 0");
 		project1 = new ProjectInfo("Project 1");
 
-		SceneInfo scene0 = new SceneInfo("Scene 0", project0.getDirectoryInfo());
-		sprite0 = new SpriteInfo("Sprite 0", project0.getDirectoryInfo());
+		SceneInfo scene0 = new SceneInfo("Scene 0", project0.getDirectoryPathInfo());
+		sprite0 = new SpriteInfo("Sprite 0", project0.getDirectoryPathInfo());
 
-		SceneInfo scene1 = new SceneInfo("Scene 1", project1.getDirectoryInfo());
-		sprite1 = new SpriteInfo("Sprite 1", project1.getDirectoryInfo());
+		SceneInfo scene1 = new SceneInfo("Scene 1", project1.getDirectoryPathInfo());
+		sprite1 = new SpriteInfo("Sprite 1", project1.getDirectoryPathInfo());
 
 		LookInfo look0 = new LookInfo("Look 0", StorageManager.saveDrawableToSDCard(org.catrobat.catroid.test
-				.R.raw.blue_image, project0.getDirectoryInfo(), InstrumentationRegistry.getContext()));
+				.R.raw.blue_image, project0.getDirectoryPathInfo(), InstrumentationRegistry.getContext()));
 		LookInfo look1 = new LookInfo("Look 1", StorageManager.saveDrawableToSDCard(org.catrobat.catroid.test
-				.R.raw.yellow_image, project0.getDirectoryInfo(), InstrumentationRegistry.getContext()));
+				.R.raw.yellow_image, project0.getDirectoryPathInfo(), InstrumentationRegistry.getContext()));
 		LookInfo look2 = new LookInfo("Look 2", StorageManager.saveDrawableToSDCard(org.catrobat.catroid.test
-				.R.raw.blue_image, project1.getDirectoryInfo(), InstrumentationRegistry.getContext()));
+				.R.raw.blue_image, project1.getDirectoryPathInfo(), InstrumentationRegistry.getContext()));
 		LookInfo look3 = new LookInfo("Look 3", StorageManager.saveDrawableToSDCard(org.catrobat.catroid.test
-				.R.raw.yellow_image, project1.getDirectoryInfo(), InstrumentationRegistry.getContext()));
+				.R.raw.yellow_image, project1.getDirectoryPathInfo(), InstrumentationRegistry.getContext()));
 
 		SoundInfo sound0 = new SoundInfo("Sound 0", StorageManager.saveSoundResourceToSDCard(org.catrobat.catroid
-				.test.R.raw.longsound, project0.getDirectoryInfo(), InstrumentationRegistry.getContext()));
+				.test.R.raw.longsound, project0.getDirectoryPathInfo(), InstrumentationRegistry.getContext()));
 
 		SoundInfo sound1 = new SoundInfo("Sound 1", StorageManager.saveSoundResourceToSDCard(org.catrobat.catroid
-				.test.R.raw.longsound, project0.getDirectoryInfo(), InstrumentationRegistry.getContext()));
+				.test.R.raw.longsound, project0.getDirectoryPathInfo(), InstrumentationRegistry.getContext()));
 
-		sprite0.addLook(look0);
-		sprite0.addLook(look1);
-		sprite1.addLook(look2);
-		sprite1.addLook(look3);
+		sprite0.getLooks().add(look0);
+		sprite0.getLooks().add(look1);
+		sprite1.getLooks().add(look2);
+		sprite1.getLooks().add(look3);
 
-		sprite0.addSound(sound0);
-		sprite0.addSound(sound1);
+		sprite0.getSounds().add(sound0);
+		sprite0.getSounds().add(sound1);
 
-		scene0.addSprite(sprite0);
-		project0.addScene(scene0);
+		scene0.getSprites().add(sprite0);
+		project0.getScenes().add(scene0);
 
-		scene1.addSprite(sprite1);
-		project1.addScene(scene1);
+		scene1.getSprites().add(sprite1);
+		project1.getScenes().add(scene1);
 	}
 
 	@Test
@@ -111,11 +111,11 @@ public class ClipboardTest {
 		List<LookInfo> looksFromClipboard = clipboard.getItemsFromClipboard();
 
 		for (LookInfo look : looksFromClipboard) {
-			look.copyResourcesToDirectory(sprite1.getDirectoryInfo());
-			sprite1.addLook(look);
+			look.copyResourcesToDirectory(sprite1.getDirectoryPathInfo());
+			sprite1.getLooks().add(look);
 		}
 
-		File sprite1Directory = new File(sprite1.getDirectoryInfo().getAbsolutePath());
+		File sprite1Directory = new File(sprite1.getDirectoryPathInfo().getAbsolutePath());
 		assertTrue(StorageUtil.directoryContains(sprite1Directory, extractLookFileNames(sprite1.getLooks())));
 
 		for (LookInfo look : sprite0.getLooks()) {
@@ -139,11 +139,11 @@ public class ClipboardTest {
 		List<SoundInfo> soundsFromClipboard = clipboard.getItemsFromClipboard();
 
 		for (SoundInfo sound : soundsFromClipboard) {
-			sound.copyResourcesToDirectory(sprite1.getDirectoryInfo());
-			sprite1.addSound(sound);
+			sound.copyResourcesToDirectory(sprite1.getDirectoryPathInfo());
+			sprite1.getSounds().add(sound);
 		}
 
-		File sprite1Directory = new File(sprite1.getDirectoryInfo().getAbsolutePath());
+		File sprite1Directory = new File(sprite1.getDirectoryPathInfo().getAbsolutePath());
 		assertTrue(StorageUtil.directoryContains(sprite1Directory, extractSoundFileNames(sprite1.getSounds())));
 
 		for (SoundInfo sound : sprite0.getSounds()) {

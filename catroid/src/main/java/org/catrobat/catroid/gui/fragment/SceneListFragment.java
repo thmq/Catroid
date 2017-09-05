@@ -43,7 +43,7 @@ public class SceneListFragment extends RecyclerViewListFragment<SceneInfo> {
 
 	@Override
 	protected RecyclerViewAdapter<SceneInfo> createAdapter() {
-		return new RecyclerViewAdapter<>(project.getScenes());
+		return new RecyclerViewAdapter<>(project.getScenes(), this, this);
 	}
 
 	@Override
@@ -53,13 +53,13 @@ public class SceneListFragment extends RecyclerViewListFragment<SceneInfo> {
 
 	@Override
 	protected DirectoryPathInfo getCurrentDirectory() {
-		return project.getDirectoryInfo();
+		return project.getDirectoryPathInfo();
 	}
 
 	@Override
 	public void addItem(String name) {
 		SceneInfo scene = new SceneInfo(name, getCurrentDirectory());
-		adapter.addItem(scene);
+		adapter.add(scene);
 	}
 
 	@Override

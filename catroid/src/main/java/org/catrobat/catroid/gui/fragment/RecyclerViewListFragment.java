@@ -42,6 +42,7 @@ import org.catrobat.catroid.copypaste.ClipboardHandler;
 import org.catrobat.catroid.gui.adapter.ListItem;
 import org.catrobat.catroid.gui.adapter.RecyclerViewAdapter;
 import org.catrobat.catroid.gui.adapter.TouchHelperCallback;
+import org.catrobat.catroid.gui.adapter.ViewHolder;
 import org.catrobat.catroid.gui.dialog.NewItemDialog;
 import org.catrobat.catroid.gui.dialog.RenameItemDialog;
 import org.catrobat.catroid.storage.DirectoryPathInfo;
@@ -119,13 +120,17 @@ public abstract class RecyclerViewListFragment<T extends ListItem> extends Fragm
 		super.onActivityCreated(savedInstance);
 
 		adapter = createAdapter();
-		adapter.setSelectionListener(this);
-		adapter.setOnItemClickListener(this);
 		view.setAdapter(adapter);
 
 		ItemTouchHelper.Callback callback = new TouchHelperCallback(adapter);
 		touchHelper = new ItemTouchHelper(callback);
 		touchHelper.attachToRecyclerView(view);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		getActivity().invalidateOptionsMenu();
 	}
 
 	@Override
@@ -147,6 +152,10 @@ public abstract class RecyclerViewListFragment<T extends ListItem> extends Fragm
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.options_menu, menu);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.btnPaste).setVisible(ClipboardHandler.containsItemsOfType(getItemType()));
 	}
 
@@ -165,7 +174,7 @@ public abstract class RecyclerViewListFragment<T extends ListItem> extends Fragm
 	}
 
 	@Override
-	public void onSelectionChanged(boolean isSelectionActive) {
+	public void onSelectionChange(boolean isSelectionActive) {
 		if (isSelectionActive && actionMode == null) {
 			actionMode = getActivity().startActionMode(actionModeCallback);
 			return;
@@ -185,7 +194,7 @@ public abstract class RecyclerViewListFragment<T extends ListItem> extends Fragm
 	}
 
 	@Override
-	public void onReorderIconClick(RecyclerView.ViewHolder viewHolder) {
+	public void onReorderIconClick(ViewHolder viewHolder) {
 		touchHelper.startDrag(viewHolder);
 	}
 
@@ -220,7 +229,7 @@ public abstract class RecyclerViewListFragment<T extends ListItem> extends Fragm
 			for (T item : items) {
 				item.setName(getUniqueItemName(item.getName()));
 				item.copyResourcesToDirectory(getCurrentDirectory());
-				adapter.addItem(item);
+				adapter.add(item);
 			}
 		} catch (Exception e) {
 			Log.e(TAG, Log.getStackTraceString(e));
@@ -232,7 +241,7 @@ public abstract class RecyclerViewListFragment<T extends ListItem> extends Fragm
 		for (T item : items) {
 			try {
 				item.removeResources();
-				adapter.removeItem(item);
+				adapter.remove(item);
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}

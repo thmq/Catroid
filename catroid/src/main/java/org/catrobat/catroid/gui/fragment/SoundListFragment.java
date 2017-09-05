@@ -55,7 +55,7 @@ public class SoundListFragment extends RecyclerViewListFragment<SoundInfo> {
 
 	@Override
 	protected RecyclerViewAdapter<SoundInfo> createAdapter() {
-		return new RecyclerViewAdapter<SoundInfo>(sprite.getSounds()) {
+		return new RecyclerViewAdapter<SoundInfo>(sprite.getSounds(), this, this) {
 
 			private MediaPlayer mediaPlayer = new MediaPlayer();
 
@@ -63,7 +63,7 @@ public class SoundListFragment extends RecyclerViewListFragment<SoundInfo> {
 			public void onBindViewHolder(final ViewHolder holder, final int position) {
 				super.onBindViewHolder(holder, position);
 
-				final SoundInfo sound = items.get(holder.getAdapterPosition());
+				final SoundInfo sound = getItems().get(holder.getAdapterPosition());
 				holder.imageSwitcher.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -101,13 +101,13 @@ public class SoundListFragment extends RecyclerViewListFragment<SoundInfo> {
 
 	@Override
 	protected DirectoryPathInfo getCurrentDirectory() {
-		return sprite.getDirectoryInfo();
+		return sprite.getDirectoryPathInfo();
 	}
 
 	@Override
 	public void addItem(String name) {
 		SoundInfo sound = new SoundInfo(name, new FilePathInfo(getCurrentDirectory(), ""));
-		adapter.addItem(sound);
+		adapter.add(sound);
 	}
 
 	@Override

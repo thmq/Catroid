@@ -48,7 +48,7 @@ public class ProjectListFragment extends RecyclerViewListFragment<ProjectInfo> {
 
 	@Override
 	protected RecyclerViewAdapter<ProjectInfo> createAdapter() {
-		List<ProjectInfo> projects = new ArrayList<>();
+		ArrayList<ProjectInfo> projects = new ArrayList<>();
 
 		try {
 			for (String name : StorageManager.getProjectNames()) {
@@ -58,7 +58,7 @@ public class ProjectListFragment extends RecyclerViewListFragment<ProjectInfo> {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}
 
-		return new RecyclerViewAdapter<ProjectInfo>(projects) {
+		return new RecyclerViewAdapter<ProjectInfo>(projects, this, this) {
 
 			@Override
 			public void updateProject() {
@@ -80,7 +80,7 @@ public class ProjectListFragment extends RecyclerViewListFragment<ProjectInfo> {
 	public void addItem(String name) {
 		try {
 			ProjectInfo project = ProjectCreator.createDefaultProject(name, getActivity());
-			adapter.addItem(project);
+			adapter.add(project);
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}
@@ -107,13 +107,13 @@ public class ProjectListFragment extends RecyclerViewListFragment<ProjectInfo> {
 				ProjectInfo clone = new ProjectInfo(getUniqueItemName(project.getName()));
 
 				for (SceneInfo scene : project.getScenes()) {
-					clone.addScene(scene.clone());
+					clone.getScenes().add(scene.clone());
 				}
 
-				clone.copyResourcesToDirectory(clone.getDirectoryInfo());
+				clone.copyResourcesToDirectory(clone.getDirectoryPathInfo());
 				ProjectHolder.getInstance().serialize(clone);
 
-				adapter.addItem(clone);
+				adapter.add(clone);
 			}
 		} catch (IOException e) {
 			Log.e(TAG, "Cannot create project folder: " + Log.getStackTraceString(e));

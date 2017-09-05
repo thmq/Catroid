@@ -54,7 +54,7 @@ public class SpriteListFragment extends RecyclerViewListFragment<SpriteInfo> {
 
 	@Override
 	protected RecyclerViewAdapter<SpriteInfo> createAdapter() {
-		return new RecyclerViewAdapter<SpriteInfo>(scene.getSprites()) {
+		return new RecyclerViewAdapter<SpriteInfo>(scene.getSprites(), this, this) {
 
 			@Override
 			public void onBindViewHolder(final ViewHolder holder, final int position) {
@@ -63,7 +63,7 @@ public class SpriteListFragment extends RecyclerViewListFragment<SpriteInfo> {
 				if (holder.getAdapterPosition() == 0) {
 					holder.itemView.setOnLongClickListener(null);
 
-					ListItem item = items.get(holder.getAdapterPosition());
+					ListItem item = getItems().get(holder.getAdapterPosition());
 					item.setName(getString(R.string.background));
 					holder.nameView.setText(item.getName());
 
@@ -86,13 +86,13 @@ public class SpriteListFragment extends RecyclerViewListFragment<SpriteInfo> {
 
 	@Override
 	protected DirectoryPathInfo getCurrentDirectory() {
-		return scene.getDirectoryInfo();
+		return scene.getDirectoryPathInfo();
 	}
 
 	@Override
 	public void addItem(String name) {
 		SpriteInfo sprite = new SpriteInfo(name, getCurrentDirectory());
-		adapter.addItem(sprite);
+		adapter.add(sprite);
 	}
 
 	@Override

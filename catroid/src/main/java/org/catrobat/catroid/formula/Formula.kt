@@ -25,7 +25,7 @@ package org.catrobat.catroid.formula
 
 import android.content.res.Resources
 import org.catrobat.catroid.data.brick.BrickField
-import org.catrobat.catroid.formula.stringprovider.FormulaTextProvider
+import org.catrobat.catroid.formula.textprovider.FormulaTextProvider
 import org.catrobat.catroid.formula.value.ValueToken
 import java.io.Serializable
 

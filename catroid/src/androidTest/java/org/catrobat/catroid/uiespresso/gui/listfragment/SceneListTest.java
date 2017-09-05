@@ -53,13 +53,12 @@ import static junit.framework.Assert.assertFalse;
 @RunWith(AndroidJUnit4.class)
 public class SceneListTest {
 
-	private ProjectInfo project;
-	private SceneInfo sceneToRename;
-	private SceneInfo sceneToDelete;
-
 	@Rule
 	public BaseActivityInstrumentationRule<SceneListActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SceneListActivity.class, true, false);
+	private ProjectInfo project;
+	private SceneInfo sceneToRename;
+	private SceneInfo sceneToDelete;
 
 	@Before
 	public void setUp() throws Exception {
@@ -109,15 +108,15 @@ public class SceneListTest {
 	private void createProject() throws Exception {
 		project = new ProjectInfo("Test");
 
-		SceneInfo scene0 = new SceneInfo("Scene 0", project.getDirectoryInfo());
-		SceneInfo scene1 = new SceneInfo("Scene 1", project.getDirectoryInfo());
-		SceneInfo scene2 = new SceneInfo("Scene 2", project.getDirectoryInfo());
-		SceneInfo scene3 = new SceneInfo("Scene 3", project.getDirectoryInfo());
+		SceneInfo scene0 = new SceneInfo("Scene 0", project.getDirectoryPathInfo());
+		SceneInfo scene1 = new SceneInfo("Scene 1", project.getDirectoryPathInfo());
+		SceneInfo scene2 = new SceneInfo("Scene 2", project.getDirectoryPathInfo());
+		SceneInfo scene3 = new SceneInfo("Scene 3", project.getDirectoryPathInfo());
 
-		project.addScene(scene0);
-		project.addScene(scene1);
-		project.addScene(scene2);
-		project.addScene(scene3);
+		project.getScenes().add(scene0);
+		project.getScenes().add(scene1);
+		project.getScenes().add(scene2);
+		project.getScenes().add(scene3);
 
 		ProjectHolder.getInstance().setCurrentProject(project);
 

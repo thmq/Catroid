@@ -21,9 +21,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.gui.adapter;
+package org.catrobat.catroid.data
 
-public interface TouchHelperAdapterInterface {
+import org.catrobat.catroid.gui.adapter.ListItem
+import org.catrobat.catroid.storage.DirectoryPathInfo
+import org.catrobat.catroid.storage.FilePathInfo
+import org.catrobat.catroid.storage.StorageManager
+import java.io.IOException
 
-	boolean onItemMove(int srcPosition, int targetPosition);
+class SoundInfo(override var name: String, var filePathInfo: FilePathInfo) : ListItem {
+
+    @Throws(CloneNotSupportedException::class)
+    override fun clone() = SoundInfo(name, FilePathInfo(filePathInfo.parent, filePathInfo.relativePath))
+
+    @Throws(IOException::class)
+    override fun copyResourcesToDirectory(directoryPathInfo: DirectoryPathInfo) {
+        filePathInfo = StorageManager.copyFile(filePathInfo, directoryPathInfo)
+    }
+
+    @Throws(IOException::class)
+    override fun removeResources() {
+        StorageManager.deleteFile(filePathInfo)
+    }
 }

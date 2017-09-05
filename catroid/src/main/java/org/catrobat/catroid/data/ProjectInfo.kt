@@ -21,22 +21,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.data.brick;
+package org.catrobat.catroid.data
 
-import android.view.View
-import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.copypaste.ClipboardItem
+import org.catrobat.catroid.gui.adapter.ListItem
 import org.catrobat.catroid.storage.DirectoryPathInfo
-import java.io.Serializable
+import org.catrobat.catroid.storage.StorageManager
+import java.io.IOException
+import java.util.*
 
-abstract class Brick(val layoutId: Int) : Serializable, ClipboardItem, View.OnClickListener {
+class ProjectInfo(override var name: String) : ListItem {
 
-    val brickFields = HashMap<Int, BrickField>()
+    val scenes = ArrayList<SceneInfo>()
+    var directoryPathInfo = StorageManager.mkDir(StorageManager.getProjectsDirectory(), name)!!
 
-    abstract fun getAction(): Action
-
-    abstract override fun clone(): Brick
-
-    override fun copyResourcesToDirectory(directoryPathInfo: DirectoryPathInfo) {
+    @Throws(CloneNotSupportedException::class)
+    override fun clone(): ProjectInfo {
+        throw CloneNotSupportedException("Cannot clone Project")
     }
+
+    @Throws(IOException::class)
+    override fun copyResourcesToDirectory(directoryPathInfo: DirectoryPathInfo) {
+        this.directoryPathInfo = directoryPathInfo
+
+        scenes.forEach { scene -> scene.copyResourcesToDirectory(directoryPathInfo) }
+    }
+
+    @Throws(IOException::class)
+    override fun removeResources() {
+        StorageManager.clearDirectory(directoryPathInfo)
+        StorageManager.deleteFile(directoryPathInfo)
+    }
+
+    fun getSceneByName(name: String) = scenes.first { it.name == name }
 }
