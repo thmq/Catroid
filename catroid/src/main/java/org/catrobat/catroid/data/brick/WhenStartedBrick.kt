@@ -28,35 +28,15 @@ import android.view.View;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.data.LookInfo;
 
-public class SetLookBrick extends Brick {
+class WhenStartedBrick : Brick(R.layout.when_started_brick) {
 
-	private BrickField setLook;
+    override fun getAction(): Action {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
-	public SetLookBrick(LookInfo look) {
-		resourceId = R.layout.set_look_brick;
-		setLook = new BrickField("SET_LOOK", R.id.brick_set_look, look);
-		brickFields.add(setLook);
-	}
+    override fun clone() = WhenStartedBrick()
 
-	public SetLookBrick(BrickField brickField) {
-		resourceId = R.layout.set_look_brick;
-		setLook = brickField;
-		brickFields.add(setLook);
-	}
-
-	@Override
-	public Action getAction() {
-		return null;
-	}
-
-	@Override
-	public SetLookBrick clone() throws CloneNotSupportedException {
-		return new SetLookBrick(setLook.clone());
-	}
-
-	@Override
-	public void onClick(View view) {
-	}
+    override fun onClick(v: View?) {
+    }
 }

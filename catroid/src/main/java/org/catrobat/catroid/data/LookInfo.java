@@ -31,7 +31,7 @@ import android.media.ThumbnailUtils;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 
-import org.catrobat.catroid.data.brick.BrickFieldObject;
+import org.catrobat.catroid.data.brick.BrickField;
 import org.catrobat.catroid.gui.adapter.ListItem;
 import org.catrobat.catroid.storage.DirectoryPathInfo;
 import org.catrobat.catroid.storage.FilePathInfo;
@@ -39,7 +39,7 @@ import org.catrobat.catroid.storage.StorageManager;
 
 import java.io.IOException;
 
-public class LookInfo implements ListItem, BrickFieldObject {
+public class LookInfo implements ListItem, BrickField {
 
 	private String name;
 	private FilePathInfo filePathInfo;

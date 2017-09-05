@@ -23,38 +23,24 @@
 
 package org.catrobat.catroid.data.brick;
 
-import android.content.res.Resources;
+import android.view.View;
 
-public class BrickField implements Cloneable {
+import com.badlogic.gdx.scenes.scene2d.Action;
 
-	private String name;
-	private int viewId;
-	private BrickFieldObject object;
+import org.catrobat.catroid.copypaste.ClipboardItem;
+import org.catrobat.catroid.storage.DirectoryPathInfo;
 
-	public BrickField(String name, int viewId, BrickFieldObject object) {
-		this.name = name;
-		this.viewId = viewId;
-		this.object = object;
-	}
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-	public String getName() {
-		return name;
-	}
+abstract class Brick(val layoutId: Int) : Serializable, ClipboardItem, View.OnClickListener {
 
-	public int getViewId() {
-		return viewId;
-	}
+    val brickFields = HashMap<Int, BrickField>()
 
-	public BrickFieldObject getObject() {
-		return object;
-	}
+    abstract fun getAction(): Action
 
-	public String getDisplayText(Resources resources) {
-		return object.getDisplayText(resources);
-	}
-
-	@Override
-	public BrickField clone() throws CloneNotSupportedException {
-		return new BrickField(name, viewId, object.clone());
-	}
+    override fun copyResourcesToDirectory(directoryPathInfo: DirectoryPathInfo) {
+    }
 }

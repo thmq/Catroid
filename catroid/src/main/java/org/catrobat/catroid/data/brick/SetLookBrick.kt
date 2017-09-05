@@ -23,49 +23,29 @@
 
 package org.catrobat.catroid.data.brick;
 
-import android.content.Intent;
+import android.content.Intent
 import android.view.View;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.formula.Formula;
-import org.catrobat.catroid.gui.activity.FormulaEditorActivity;
+import org.catrobat.catroid.data.LookInfo;
+import org.catrobat.catroid.formula.Formula
+import org.catrobat.catroid.gui.activity.FormulaEditorActivity
 
-public class PlaceAtBrick extends Brick {
+class SetLookBrick(var look: LookInfo) : Brick(R.layout.set_look_brick) {
 
-	private BrickField xPosition;
-	private BrickField yPosition;
+    init {
+        brickFields.put(R.id.brick_set_look, look)
+    }
 
-	public PlaceAtBrick(Formula xFormula, Formula yFormula) {
-		resourceId = R.layout.place_at_brick;
-		xPosition = new BrickField("X_POSITION", R.id.brick_place_at_x, xFormula);
-		yPosition = new BrickField("Y_POSITION", R.id.brick_place_at_y, yFormula);
-		brickFields.add(xPosition);
-		brickFields.add(yPosition);
-	}
+    override fun getAction(): Action {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
-	public PlaceAtBrick(BrickField xPosition, BrickField yPosition) {
-		resourceId = R.layout.place_at_brick;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-		brickFields.add(xPosition);
-		brickFields.add(yPosition);
-	}
+    override fun clone() = SetLookBrick(look)
 
-	@Override
-	public Action getAction() {
-		return null;
-	}
-
-	@Override
-	public PlaceAtBrick clone() throws CloneNotSupportedException {
-		return new PlaceAtBrick(xPosition.clone(), yPosition.clone());
-	}
-
-	@Override
-	public void onClick(View view) {
-		Intent intent = new Intent(view.getContext(), FormulaEditorActivity.class);
-		view.getContext().startActivity(intent);
-	}
+    override fun onClick(v: View?) {
+        v?.context?.startActivity(Intent(v.context, FormulaEditorActivity::class.java))
+    }
 }

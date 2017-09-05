@@ -24,12 +24,12 @@
 package org.catrobat.catroid.formula
 
 import android.content.res.Resources
-import org.catrobat.catroid.data.brick.BrickFieldObject
+import org.catrobat.catroid.data.brick.BrickField
 import org.catrobat.catroid.formula.stringprovider.FormulaTextProvider
 import org.catrobat.catroid.formula.value.ValueToken
 import java.io.Serializable
 
-class Formula() : BrickFieldObject, Serializable {
+class Formula() : Serializable, BrickField {
 
     val tokens = ArrayList<Token>()
 
@@ -42,8 +42,6 @@ class Formula() : BrickFieldObject, Serializable {
     }
 
     override fun getDisplayText(resources: Resources) = FormulaTextProvider(resources).getText(tokens)
-
-    override fun clone(): Formula {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    
+    override fun clone() = Formula()
 }

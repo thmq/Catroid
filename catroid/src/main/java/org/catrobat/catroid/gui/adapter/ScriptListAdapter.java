@@ -31,7 +31,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.catroid.data.brick.Brick;
-import org.catrobat.catroid.data.brick.BrickField;
 import org.catrobat.catroid.data.brick.BrickViewHolder;
 import org.catrobat.catroid.projecthandler.ProjectHolder;
 
@@ -65,10 +64,10 @@ public class ScriptListAdapter extends RecyclerView.Adapter<BrickViewHolder> imp
 	public void onBindViewHolder(final BrickViewHolder holder, int position) {
 		Brick item = bricks.get(position);
 
-		for (BrickField brickField : item.getBrickFields()) {
-			((TextView) holder.itemView.findViewById(brickField.getViewId()))
-					.setText(brickField.getDisplayText(holder.itemView.getContext().getResources()));
-			holder.itemView.findViewById(brickField.getViewId()).setOnClickListener(item);
+		for (int viewId : item.getBrickFields().keySet()) {
+			TextView fieldView = (TextView) holder.itemView.findViewById(viewId);
+			fieldView.setText(item.getBrickFields().get(viewId).getDisplayText(fieldView.getContext().getResources()));
+			fieldView.setOnClickListener(item);
 		}
 
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +106,7 @@ public class ScriptListAdapter extends RecyclerView.Adapter<BrickViewHolder> imp
 
 	@Override
 	public int getItemViewType(int position) {
-		return bricks.get(position).getResourceId();
+		return bricks.get(position).getLayoutId();
 	}
 
 	public void setSelectionListener(SelectionListener selectionListener) {
