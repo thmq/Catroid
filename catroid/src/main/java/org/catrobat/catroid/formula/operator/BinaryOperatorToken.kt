@@ -35,6 +35,15 @@ abstract class BinaryOperatorToken(PRIORITY: Int) : OperatorToken(Type.OPERATOR,
      */
     abstract fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken
 
+    class MissingBinaryOperatorToken : BinaryOperatorToken(666) {
+
+        override fun getResourceId() = R.string.fe_missing_binary_operator
+
+        override fun applyTo(rightToken: ValueToken, leftToken: ValueToken): ValueToken {
+            throw Exception("Missing Binary Operator")
+        }
+    }
+
     class MultOperatorToken : BinaryOperatorToken(2) {
 
         override fun getResourceId() = R.string.formula_editor_operator_mult

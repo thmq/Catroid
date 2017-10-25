@@ -58,7 +58,13 @@ class FormulaEditorActivity : AppCompatActivity() {
         findViewById(R.id.edit_text)?.setOnTouchListener { v, event ->
             val imm = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(v?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-            (v as EditText).setSelection(v.getOffsetForPosition(event.x, event.y))
+
+            val inputField = v as EditText
+
+            val position = FormulaTextProvider(resources)
+                    .getEndOfTokenStringAtPosition(tokens, inputField.getOffsetForPosition(event.x, event.y))
+
+            inputField.setSelection(position)
             true
         }
     }
@@ -149,15 +155,48 @@ class FormulaEditorActivity : AppCompatActivity() {
 
     private fun addToken(cursorPosition: Int, token: Token) {
         if (cursorPosition == 0) tokens.add(0, token) else {
-            tokens.add(FormulaTextProvider(resources).getTokenPosition(tokens, cursorPosition) + 1,
-                    token)
+            val tokenAtPosition = FormulaTextProvider(resources).getTokenAtPosition(tokens, cursorPosition)
+            tokens.add(tokens.indexOf(tokenAtPosition) + 1, token)
+            sanitizeTokenList()
         }
+    }
+
+    private fun sanitizeTokenList() {
+        val saneTokenList = ArrayList<Token>()
+
+        for (token in tokens) {
+            when (token) {
+                tokens.first() -> saneTokenList.add(token)
+                is BinaryOperatorToken.MissingBinaryOperatorToken -> {
+                    if (tokens[tokens.indexOf(token)] !is BinaryOperatorToken.MissingBinaryOperatorToken) {
+                        saneTokenList.add(token)
+                    }
+                }
+                else -> saneTokenList.add(token)
+            }
+        }
+
+        tokens.clear()
+        tokens.addAll(saneTokenList)
     }
 
     private fun removeToken(token: Token) {
         when (token) {
             is ValueToken -> if (token.removeDigit()) tokens.remove(token)
+            is BinaryOperatorToken -> removeBinaryOperatorToken(token)
             else -> tokens.remove(token)
+        }
+    }
+
+    private fun removeBinaryOperatorToken(token: BinaryOperatorToken) {
+        when {
+            token == tokens.last() ||
+            token == tokens.first() ||
+            tokens[tokens.indexOf(token) - 1] is BinaryOperatorToken ||
+            tokens[tokens.indexOf(token) + 1] is BinaryOperatorToken -> {
+                tokens.remove(token)
+            }
+            else -> tokens[tokens.indexOf(token)] = BinaryOperatorToken.MissingBinaryOperatorToken()
         }
     }
 }

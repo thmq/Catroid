@@ -79,10 +79,10 @@ public class SpriteListTest {
 
 	@Test
 	public void testBackgroundSprite() {
-		onView(getRecyclerViewWithId(R.id.fragment).atPosition(0))
+		onView(getRecyclerViewWithId(R.id.recycler_view).atPosition(0))
 				.check(matches(hasDescendant(withText(R.string.background))));
 
-		onView(withId(R.id.fragment))
+		onView(withId(R.id.recycler_view))
 				.perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 		onView(withId(R.id.btnEdit)).check(doesNotExist());
 
@@ -92,7 +92,7 @@ public class SpriteListTest {
 	@Test
 	public void testRename() {
 		String newName = "New Name";
-		onView(withId(R.id.fragment))
+		onView(withId(R.id.recycler_view))
 				.perform(RecyclerViewActions.actionOnItemAtPosition(1, longClick()));
 		onView(withId(R.id.btnEdit)).perform(click());
 
@@ -106,7 +106,7 @@ public class SpriteListTest {
 
 	@Test
 	public void testDelete() {
-		onView(withId(R.id.fragment))
+		onView(withId(R.id.recycler_view))
 				.perform(RecyclerViewActions.actionOnItemAtPosition(2, longClick()));
 		onView(withId(R.id.btnDelete)).perform(click());
 
@@ -115,7 +115,7 @@ public class SpriteListTest {
 
 	@Test
 	public void testCopyAndPaste() throws Exception {
-		onView(withId(R.id.fragment))
+		onView(withId(R.id.recycler_view))
 				.perform(RecyclerViewActions.actionOnItemAtPosition(3, longClick()));
 		onView(withId(R.id.btnCopy)).perform(click());
 

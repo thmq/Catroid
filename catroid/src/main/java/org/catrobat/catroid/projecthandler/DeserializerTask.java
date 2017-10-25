@@ -21,25 +21,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.catrobat.catroid.projecthandler;
 
-buildscript {
-    ext.kotlin_version = '1.1.51'
-    repositories {
-        jcenter()
-    }
+import android.os.AsyncTask;
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.google.gms:google-services:3.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+import org.catrobat.catroid.data.ProjectInfo;
 
-allprojects {
-    repositories {
-        jcenter()
-    }
+import java.io.FileNotFoundException;
+
+public class DeserializerTask extends AsyncTask<String, Void, ProjectInfo> {
+
+	private DeserializerListener listener;
+
+	public DeserializerTask(DeserializerListener listener) {
+		this.listener = listener;
+	}
+
+	@Override
+	protected ProjectInfo doInBackground(String... strings) {
+		try {
+			return ProjectHolder.getInstance().deserialize(strings[0]);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	protected void onPostExecute(ProjectInfo project) {
+		super.onPostExecute(project);
+		listener.onDeserializationComplete(project);
+	}
+
+	public interface DeserializerListener {
+
+		void onDeserializationComplete(ProjectInfo project);
+	}
 }

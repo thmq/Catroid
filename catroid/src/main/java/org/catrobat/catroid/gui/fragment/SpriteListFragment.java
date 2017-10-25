@@ -53,8 +53,8 @@ public class SpriteListFragment extends RecyclerViewListFragment<SpriteInfo> {
 	}
 
 	@Override
-	protected RecyclerViewAdapter<SpriteInfo> createAdapter() {
-		return new RecyclerViewAdapter<SpriteInfo>(scene.getSprites(), this, this) {
+	protected void createAdapter() {
+		adapter = new RecyclerViewAdapter<SpriteInfo>(scene.getSprites(), this, this) {
 
 			@Override
 			public void onBindViewHolder(final ViewHolder holder, final int position) {
@@ -77,6 +77,8 @@ public class SpriteListFragment extends RecyclerViewListFragment<SpriteInfo> {
 				return fromPosition == 0 || toPosition == 0 || super.onItemMove(fromPosition, toPosition);
 			}
 		};
+
+		onAdapterReady();
 	}
 
 	@Override

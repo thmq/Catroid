@@ -58,6 +58,7 @@ public abstract class RecyclerViewListFragment<T extends ListItem> extends Fragm
 
 	public static final String TAG = RecyclerViewListFragment.class.getSimpleName();
 
+	protected View contentWrapper;
 	protected RecyclerView view;
 	protected RecyclerViewAdapter<T> adapter;
 	protected ItemTouchHelper touchHelper;
@@ -108,18 +109,21 @@ public abstract class RecyclerViewListFragment<T extends ListItem> extends Fragm
 		}
 	};
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		setHasOptionsMenu(true);
-		view = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_view, container, false);
-		return view;
+	protected void setProgressBarVisibility(boolean visible) {
+		contentWrapper.findViewById(R.id.indeterminateBar).setVisibility(visible ? View.VISIBLE : View.GONE);
+		view.setVisibility(visible ? View.GONE : View.VISIBLE);
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstance) {
-		super.onActivityCreated(savedInstance);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		setHasOptionsMenu(true);
+		contentWrapper = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+		view = (RecyclerView) contentWrapper.findViewById(R.id.recycler_view);
+		return contentWrapper;
+	}
 
-		adapter = createAdapter();
+	protected void onAdapterReady() {
+		setProgressBarVisibility(false);
 		view.setAdapter(adapter);
 
 		ItemTouchHelper.Callback callback = new TouchHelperCallback(adapter);
@@ -131,6 +135,8 @@ public abstract class RecyclerViewListFragment<T extends ListItem> extends Fragm
 	public void onResume() {
 		super.onResume();
 		getActivity().invalidateOptionsMenu();
+		setProgressBarVisibility(true);
+		createAdapter();
 	}
 
 	@Override
@@ -142,7 +148,7 @@ public abstract class RecyclerViewListFragment<T extends ListItem> extends Fragm
 		}
 	}
 
-	protected abstract RecyclerViewAdapter<T> createAdapter();
+	protected abstract void createAdapter();
 
 	protected abstract Class getItemType();
 

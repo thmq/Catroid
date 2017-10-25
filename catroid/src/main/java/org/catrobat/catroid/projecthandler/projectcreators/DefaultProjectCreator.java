@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.projecthandler;
+package org.catrobat.catroid.projecthandler.projectcreators;
 
 import android.content.Context;
 
@@ -36,18 +36,16 @@ import org.catrobat.catroid.data.brick.SetLookBrick;
 import org.catrobat.catroid.data.brick.SetXBrick;
 import org.catrobat.catroid.data.brick.WhenStartedBrick;
 import org.catrobat.catroid.formula.Formula;
+import org.catrobat.catroid.projecthandler.ProjectCreatorTask;
 import org.catrobat.catroid.storage.StorageManager;
 
 import java.io.IOException;
 
-public final class ProjectCreator {
+public final class DefaultProjectCreator implements ProjectCreatorTask.ProjectCreator {
 
-	public static final String TAG = ProjectCreator.class.getSimpleName();
+	public static final String TAG = DefaultProjectCreator.class.getSimpleName();
 
-	private ProjectCreator() {
-	}
-
-	public static ProjectInfo createDefaultProject(String name, Context context) throws IOException {
+	public ProjectInfo createProject(String name, Context context) throws IOException {
 		ProjectInfo project = new ProjectInfo(name);
 
 		SceneInfo scene0 = new SceneInfo("Scene 0", project.getDirectoryPathInfo());
@@ -94,8 +92,6 @@ public final class ProjectCreator {
 
 		project.getScenes().add(scene0);
 		project.getScenes().add(scene1);
-
-		ProjectHolder.getInstance().serialize(project);
 
 		return project;
 	}

@@ -38,33 +38,34 @@ class FormulaTextProvider(val resources: Resources) {
         var string = ""
 
         for (token in tokens) {
-            string += getText(token) + " "
+            string += getText(token)
         }
 
         return string.trim()
+    }
+
+    fun getEndOfTokenStringAtPosition(tokens: List<Token>, position: Int): Int {
+        var textLength = 0
+
+        for (token in tokens) {
+            textLength += getText(token).length
+            if (textLength >= position) break
+        }
+
+        return textLength
     }
 
     fun getTokenAtPosition(tokens: List<Token>, position: Int): Token {
         var textLength = 0
 
         for (token in tokens) {
-            textLength += getText(token).length + 1
+            textLength += getText(token).length
             if (textLength >= position) return token
         }
 
         return tokens.last()
     }
 
-    fun getTokenPosition(tokens: List<Token>, position: Int): Int {
-        var textLength = 0
-
-        for (token in tokens) {
-            textLength += getText(token).length + 1
-            if (textLength >= position) return tokens.indexOf(token)
-        }
-
-        return 0
-    }
 
     private fun getText(token: Token) = when (token.type) {
             Token.Type.VALUE -> (token as ValueToken).getString()

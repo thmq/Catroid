@@ -52,6 +52,7 @@ public class ScriptListFragment extends Fragment implements ScriptListAdapter.Se
 
 	public static final String TAG = ScriptListFragment.class.getSimpleName();
 
+	private View contentWrapper;
 	private RecyclerView view;
 	private ScriptListAdapter adapter;
 	private ItemTouchHelper touchHelper;
@@ -100,11 +101,18 @@ public class ScriptListFragment extends Fragment implements ScriptListAdapter.Se
 		}
 	};
 
+	private void setProgressBarVisibility(boolean visible) {
+		contentWrapper.findViewById(R.id.indeterminateBar).setVisibility(visible ? View.VISIBLE : View.GONE);
+		view.setVisibility(visible ? View.GONE : View.VISIBLE);
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
-		view = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_view, container, false);
-		return view;
+		contentWrapper = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+		view = (RecyclerView) contentWrapper.findViewById(R.id.recycler_view);
+		setProgressBarVisibility(false);
+		return contentWrapper;
 	}
 
 	@Override

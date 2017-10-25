@@ -32,38 +32,53 @@ import org.catrobat.catroid.data.SceneInfo;
 import org.catrobat.catroid.gui.activity.SceneListActivity;
 import org.catrobat.catroid.gui.adapter.RecyclerViewAdapter;
 import org.catrobat.catroid.gui.dialog.RenameItemDialog;
-import org.catrobat.catroid.projecthandler.ProjectCreator;
+import org.catrobat.catroid.projecthandler.projectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.projecthandler.ProjectHolder;
+import org.catrobat.catroid.projecthandler.ProjectListDeserializerTask;
+import org.catrobat.catroid.projecthandler.DeserializerTask;
+import org.catrobat.catroid.projecthandler.ProjectCreatorTask;
 import org.catrobat.catroid.storage.DirectoryPathInfo;
 import org.catrobat.catroid.storage.StorageManager;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectListFragment extends RecyclerViewListFragment<ProjectInfo> {
+public class ProjectListFragment extends RecyclerViewListFragment<ProjectInfo> implements
+		ProjectListDeserializerTask.ProjectListDeserializerListener,
+		DeserializerTask.DeserializerListener,
+		ProjectCreatorTask.ProjectCreatorListener {
 
 	public static final String TAG = ProjectListFragment.class.getSimpleName();
 
 	@Override
-	protected RecyclerViewAdapter<ProjectInfo> createAdapter() {
-		ArrayList<ProjectInfo> projects = new ArrayList<>();
+	protected void createAdapter() {
+		ProjectListDeserializerTask loader = new ProjectListDeserializerTask(this);
+		loader.execute();
+	}
 
-		try {
-			for (String name : StorageManager.getProjectNames()) {
-				projects.add(ProjectHolder.getInstance().deserialize(name));
-			}
-		} catch (FileNotFoundException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		}
-
-		return new RecyclerViewAdapter<ProjectInfo>(projects, this, this) {
+	@Override
+	public void onDeserializationComplete(ArrayList<ProjectInfo> projects) {
+		adapter = new RecyclerViewAdapter<ProjectInfo>(projects, this, this) {
 
 			@Override
 			public void updateProject() {
 			}
 		};
+
+		onAdapterReady();
+	}
+
+	@Override
+	public void onDeserializationComplete(ProjectInfo project) {
+		ProjectHolder.getInstance().setCurrentProject(project);
+		Intent intent = new Intent(getActivity(), SceneListActivity.class);
+		startActivity(intent);
+	}
+
+	@Override
+	public void onCreationComplete(ProjectInfo project) {
+		onItemClick(project);
 	}
 
 	@Override
@@ -78,25 +93,16 @@ public class ProjectListFragment extends RecyclerViewListFragment<ProjectInfo> {
 
 	@Override
 	public void addItem(String name) {
-		try {
-			ProjectInfo project = ProjectCreator.createDefaultProject(name, getActivity());
-			adapter.add(project);
-		} catch (IOException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		}
+		setProgressBarVisibility(true);
+		ProjectCreatorTask task = new ProjectCreatorTask(new DefaultProjectCreator(), this, getContext());
+		task.execute(name);
 	}
 
 	@Override
 	public void onItemClick(ProjectInfo item) {
-		try {
-			ProjectInfo project = ProjectHolder.getInstance().deserialize(item.getName());
-			ProjectHolder.getInstance().setCurrentProject(project);
-
-			Intent intent = new Intent(getActivity(), SceneListActivity.class);
-			startActivity(intent);
-		} catch (FileNotFoundException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		}
+		setProgressBarVisibility(true);
+		DeserializerTask task = new DeserializerTask(this);
+		task.execute(item.getName());
 	}
 
 	@Override

@@ -54,8 +54,8 @@ public class SoundListFragment extends RecyclerViewListFragment<SoundInfo> {
 	}
 
 	@Override
-	protected RecyclerViewAdapter<SoundInfo> createAdapter() {
-		return new RecyclerViewAdapter<SoundInfo>(sprite.getSounds(), this, this) {
+	protected void createAdapter() {
+		adapter = new RecyclerViewAdapter<SoundInfo>(sprite.getSounds(), this, this) {
 
 			private MediaPlayer mediaPlayer = new MediaPlayer();
 
@@ -92,6 +92,8 @@ public class SoundListFragment extends RecyclerViewListFragment<SoundInfo> {
 				mediaPlayer.stop();
 			}
 		};
+
+		onAdapterReady();
 	}
 
 	@Override

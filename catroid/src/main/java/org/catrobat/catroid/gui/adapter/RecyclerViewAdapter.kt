@@ -32,10 +32,14 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-open class RecyclerViewAdapter<T : ListItem>(val items: ArrayList<T>,
-                                             private val onItemClickListener: OnItemClickListener<T>,
+open class RecyclerViewAdapter<T : ListItem>(private val onItemClickListener: OnItemClickListener<T>,
                                              private val selectionListener: SelectionListener)
     : RecyclerView.Adapter<ViewHolder>(), TouchHelperCallback.AdapterInterface {
+
+    constructor(items: ArrayList<T>, onItemClickListener: OnItemClickListener<T>, selectionListener: SelectionListener)
+            : this(onItemClickListener, selectionListener) {
+        this.items.addAll(items)
+    }
 
     interface OnItemClickListener<in T> {
 
@@ -48,6 +52,7 @@ open class RecyclerViewAdapter<T : ListItem>(val items: ArrayList<T>,
         fun onSelectionChange(isSelectionActive: Boolean)
     }
 
+    val items = ArrayList<T>()
     private val selectionManager = SelectionManager()
     val selectedItems: ArrayList<T>
         get() = createSelectedItemList()

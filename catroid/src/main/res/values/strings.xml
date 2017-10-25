@@ -122,6 +122,7 @@
     <!-- Formula Editor -->
     <string name="fe_save">save</string>
     <string name="fe_parser_error">Cannot evaluate Formula.</string>
+    <string name="fe_missing_binary_operator">##</string>
 
     <!-- Marketing activity -->
     <string name="marketing_created_with">Created with</string>

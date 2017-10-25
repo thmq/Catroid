@@ -69,7 +69,7 @@ public class SceneListTest {
 	@Test
 	public void testRename() {
 		String newName = "New Name";
-		onView(withId(R.id.fragment))
+		onView(withId(R.id.recycler_view))
 				.perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 		onView(withId(R.id.btnEdit)).perform(click());
 
@@ -83,7 +83,7 @@ public class SceneListTest {
 
 	@Test
 	public void testDelete() {
-		onView(withId(R.id.fragment))
+		onView(withId(R.id.recycler_view))
 				.perform(RecyclerViewActions.actionOnItemAtPosition(1, longClick()));
 		onView(withId(R.id.btnDelete)).perform(click());
 
@@ -92,7 +92,7 @@ public class SceneListTest {
 
 	@Test
 	public void testCopyAndPaste() throws Exception {
-		onView(withId(R.id.fragment))
+		onView(withId(R.id.recycler_view))
 				.perform(RecyclerViewActions.actionOnItemAtPosition(2, longClick()));
 		onView(withId(R.id.btnCopy)).perform(click());
 

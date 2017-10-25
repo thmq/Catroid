@@ -66,8 +66,9 @@ public class LookListFragment extends RecyclerViewListFragment<LookInfo> {
 	}
 
 	@Override
-	protected RecyclerViewAdapter<LookInfo> createAdapter() {
-		return new RecyclerViewAdapter<>(sprite.getLooks(), this, this);
+	protected void createAdapter() {
+		adapter = new RecyclerViewAdapter<>(sprite.getLooks(), this, this);
+		onAdapterReady();
 	}
 
 	@Override

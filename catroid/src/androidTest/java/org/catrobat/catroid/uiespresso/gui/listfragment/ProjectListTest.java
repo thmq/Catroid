@@ -30,7 +30,8 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.data.ProjectInfo;
 import org.catrobat.catroid.gui.activity.ProjectListActivity;
-import org.catrobat.catroid.projecthandler.ProjectCreator;
+import org.catrobat.catroid.projecthandler.ProjectHolder;
+import org.catrobat.catroid.projecthandler.projectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.uiespresso.util.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -75,7 +76,7 @@ public class ProjectListTest {
 
 	@Test
 	public void testDelete() {
-		onView(withId(R.id.fragment)).perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
+		onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 		onView(withId(R.id.btnDelete)).perform(click());
 
 		onView(withText(projects.get(0).getName())).check(doesNotExist());
@@ -83,7 +84,7 @@ public class ProjectListTest {
 
 	@Test
 	public void testCopy() {
-		onView(withId(R.id.fragment)).perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
+		onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 		onView(withId(R.id.btnCopy)).perform(click());
 
 		onView(withText(projects.get(0).getName())).check(matches(isDisplayed()));
@@ -94,9 +95,21 @@ public class ProjectListTest {
 	}
 
 	private void createProjects() throws Exception {
-		projects.add(ProjectCreator.createDefaultProject("Project 0", InstrumentationRegistry.getTargetContext()));
-		projects.add(ProjectCreator.createDefaultProject("Project 1", InstrumentationRegistry.getTargetContext()));
-		projects.add(ProjectCreator.createDefaultProject("Project 2", InstrumentationRegistry.getTargetContext()));
-		projects.add(ProjectCreator.createDefaultProject("Project 3", InstrumentationRegistry.getTargetContext()));
+		DefaultProjectCreator creator = new DefaultProjectCreator();
+		ProjectInfo project0 = creator.createProject("Project 0", InstrumentationRegistry.getTargetContext());
+		ProjectHolder.getInstance().serialize(project0);
+		projects.add(project0);
+
+		ProjectInfo project1 = creator.createProject("Project 1", InstrumentationRegistry.getTargetContext());
+		ProjectHolder.getInstance().serialize(project1);
+		projects.add(project1);
+
+		ProjectInfo project2 = creator.createProject("Project 2", InstrumentationRegistry.getTargetContext());
+		ProjectHolder.getInstance().serialize(project2);
+		projects.add(project2);
+
+		ProjectInfo project3 = creator.createProject("Project 3", InstrumentationRegistry.getTargetContext());
+		ProjectHolder.getInstance().serialize(project3);
+		projects.add(project3);
 	}
 }

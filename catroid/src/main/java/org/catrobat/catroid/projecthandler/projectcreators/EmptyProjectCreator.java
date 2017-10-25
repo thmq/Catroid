@@ -21,25 +21,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.catrobat.catroid.projecthandler.projectcreators;
 
-buildscript {
-    ext.kotlin_version = '1.1.51'
-    repositories {
-        jcenter()
-    }
+import android.content.Context;
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.google.gms:google-services:3.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+import org.catrobat.catroid.data.ProjectInfo;
+import org.catrobat.catroid.projecthandler.ProjectCreatorTask;
 
-allprojects {
-    repositories {
-        jcenter()
-    }
+import java.io.IOException;
+
+public class EmptyProjectCreator implements ProjectCreatorTask.ProjectCreator {
+
+	@Override
+	public ProjectInfo createProject(String name, Context context) throws IOException {
+		return new ProjectInfo(name);
+	}
 }

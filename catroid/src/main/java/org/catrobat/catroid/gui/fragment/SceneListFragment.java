@@ -42,8 +42,9 @@ public class SceneListFragment extends RecyclerViewListFragment<SceneInfo> {
 	private ProjectInfo project = ProjectHolder.getInstance().getCurrentProject();
 
 	@Override
-	protected RecyclerViewAdapter<SceneInfo> createAdapter() {
-		return new RecyclerViewAdapter<>(project.getScenes(), this, this);
+	protected void createAdapter() {
+		adapter = new RecyclerViewAdapter<>(project.getScenes(), this, this);
+		onAdapterReady();
 	}
 
 	@Override
