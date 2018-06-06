@@ -263,7 +263,7 @@ public class StageListener implements ApplicationListener {
 		if (removedSprite) {
 			Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
 			DataContainer userVariables = currentScene.getDataContainer();
-			userVariables.removeVariableListForSprite(sprite);
+			userVariables.removeAllDataObjects(sprite);
 			sprite.look.remove();
 			sprite.invalidate();
 		}

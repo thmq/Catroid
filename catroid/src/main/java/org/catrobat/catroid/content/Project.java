@@ -125,22 +125,22 @@ public class Project implements Serializable {
 		this(context, name, false);
 	}
 
-	public Project(SupportProject supportProject, Context context) {
-		xmlHeader = supportProject.xmlHeader;
-		settings = supportProject.settings;
-
-		projectVariables = supportProject.dataContainer.projectVariables;
-		projectLists = supportProject.dataContainer.projectLists;
-
-		DataContainer container = new DataContainer(this);
-		removeInvalidVariablesAndLists(supportProject.dataContainer);
-		container.setSpriteVariablesForSupportContainer(supportProject.dataContainer);
-
-		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), this);
-		scene.setDataContainer(container);
-		scene.getSpriteList().addAll(supportProject.spriteList);
-		sceneList.add(scene);
-	}
+//	public Project(SupportProject supportProject, Context context) {
+//		xmlHeader = supportProject.xmlHeader;
+//		settings = supportProject.settings;
+//
+//		projectVariables = supportProject.dataContainer.projectVariables;
+//		projectLists = supportProject.dataContainer.projectLists;
+//
+//		DataContainer container = new DataContainer(this);
+//		removeInvalidVariablesAndLists(supportProject.dataContainer);
+//		container.setSpriteVariablesForSupportContainer(supportProject.dataContainer);
+//
+//		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), this);
+//		scene.setDataContainer(container);
+//		scene.getSpriteList().addAll(supportProject.spriteList);
+//		sceneList.add(scene);
+//	}
 
 	public void removeInvalidVariablesAndLists(BaseDataContainer dataContainer) {
 		if (dataContainer == null) {
@@ -193,16 +193,10 @@ public class Project implements Serializable {
 	}
 
 	public List<UserVariable> getProjectVariables() {
-		if (projectVariables == null) {
-			projectVariables = new ArrayList<>();
-		}
 		return projectVariables;
 	}
 
 	public List<UserList> getProjectLists() {
-		if (projectLists == null) {
-			projectLists = new ArrayList<>();
-		}
 		return projectLists;
 	}
 

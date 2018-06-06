@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import java.util.List;
 
 public class DataAdapter extends BaseAdapter {
+
 	private Context context;
 	private List<UserList> spriteLists;
 	private List<UserList> projectLists;

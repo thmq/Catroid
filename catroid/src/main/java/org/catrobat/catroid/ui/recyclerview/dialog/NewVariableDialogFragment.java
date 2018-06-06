@@ -29,6 +29,7 @@ import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
@@ -65,15 +66,12 @@ public class NewVariableDialogFragment extends NewDataDialogFragment {
 			return false;
 		}
 
-		UserVariable userVariable;
-
 		if (isGlobal) {
-			userVariable = dataContainer.addProjectUserVariable(name);
+			newVariableInterface.onNewVariable(dataContainer.addProjectUserVariable(name));
 		} else {
-			userVariable = dataContainer.addSpriteUserVariable(name);
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			newVariableInterface.onNewVariable(dataContainer.addSpriteUserVariable(currentSprite, name));
 		}
-
-		newVariableInterface.onNewVariable(userVariable);
 		return true;
 	}
 

@@ -31,22 +31,13 @@ import android.widget.Spinner;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewListDialogFragment;
-
-import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_DATA_EMPTY;
 
 public abstract class UserListBrick extends FormulaBrick implements NewListDialogFragment.NewListInterface {
 
 	protected UserList userList;
-
-	@XStreamOmitField
-	protected BackPackedListData backPackedData;
 
 	private void updateUserListIfDeleted(UserListAdapterWrapper userListAdapterWrapper) {
 		if (userList != null && (userListAdapterWrapper.getPositionOfItem(userList) == 0)) {
@@ -81,50 +72,6 @@ public abstract class UserListBrick extends FormulaBrick implements NewListDialo
 
 	public void setUserList(UserList userList) {
 		this.userList = userList;
-	}
-
-	public BackPackedListData getBackPackedData() {
-		return backPackedData;
-	}
-
-	public void setBackPackedData(BackPackedListData backPackedData) {
-		this.backPackedData = backPackedData;
-	}
-
-	@Override
-	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
-		if (!super.isEqualBrick(brick, mergeResult, current)) {
-			return false;
-		}
-
-		UserList first = this.getUserList();
-		UserList second = ((UserListBrick) brick).getUserList();
-		if (!first.getName().equals(second.getName())) {
-			return false;
-		}
-
-		boolean firstIsProjectVariable = mergeResult.getDataContainer().existProjectList(first);
-		boolean secondIsProjectVariable = current.getDataContainer().existProjectList(second);
-
-		return (firstIsProjectVariable && secondIsProjectVariable)
-				|| (!firstIsProjectVariable && !secondIsProjectVariable);
-	}
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
-		DataContainer.DataType type = USER_DATA_EMPTY;
-		if (userList != null) {
-			type = currentScene.getDataContainer()
-					.getTypeOfUserList(getUserList().getName(), ProjectManager
-							.getInstance().getCurrentSprite());
-		}
-
-		if (backPackedData == null) {
-			backPackedData = new BackPackedListData();
-		}
-		backPackedData.userList = userList;
-		backPackedData.userListType = type;
 	}
 
 	protected View.OnTouchListener createSpinnerOnTouchListener() {

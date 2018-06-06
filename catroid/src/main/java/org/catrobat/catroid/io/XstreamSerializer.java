@@ -27,7 +27,6 @@ import android.util.Log;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.parrot.freeflight.utils.FileUtils;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
@@ -48,7 +47,6 @@ import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.SupportProject;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.WhenConditionScript;
@@ -197,7 +195,6 @@ import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.formulaeditor.datacontainer.SupportDataContainer;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
@@ -207,7 +204,6 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.StringFinder;
 
@@ -240,7 +236,6 @@ import static org.catrobat.catroid.common.Constants.TEXT_TO_SPEECH;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.VIBRATOR;
 import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
-import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 public final class XstreamSerializer {
 
@@ -501,7 +496,7 @@ public final class XstreamSerializer {
 
 			for (Scene scene : project.getSceneList()) {
 				scene.setProject(project);
-				scene.getDataContainer().setProject(project);
+				scene.getDataContainer().setProjectUserDataObjects(project);
 			}
 
 			setFileReferences(project);
@@ -545,46 +540,47 @@ public final class XstreamSerializer {
 	}
 
 	private Project loadProjectMissingScenes(String projectName, Context context) throws IOException {
-		loadSaveLock.lock();
-
-		File projectDir = new File(buildProjectPath(projectName));
-
-		new File(projectDir, IMAGE_DIRECTORY_NAME).mkdir();
-		new File(projectDir, SOUND_DIRECTORY_NAME).mkdir();
-
-		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
-
-		prepareXstream(SupportProject.class, SupportDataContainer.class);
-		SupportProject supportProject = (SupportProject) xstream.getProjectFromXML(xmlFile);
-
-		prepareXstream(Project.class, DataContainer.class);
-		Project project = new Project(supportProject, context);
-
-		File sceneDir = new File(buildScenePath(projectName, project.getDefaultScene().getName()));
-		StorageOperations.createSceneDirectory(sceneDir);
-
-		File automaticScreenshot = new File(projectDir, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
-		File manualScreenshot = new File(projectDir, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-
-		StorageOperations.copyDir(new File(projectDir, IMAGE_DIRECTORY_NAME), new File(sceneDir, IMAGE_DIRECTORY_NAME));
-		StorageOperations.copyDir(new File(projectDir, SOUND_DIRECTORY_NAME), new File(sceneDir, SOUND_DIRECTORY_NAME));
-
-		if (automaticScreenshot.exists()) {
-			FileUtils.copyFileToDir(automaticScreenshot, sceneDir);
-			automaticScreenshot.delete();
-		}
-		if (manualScreenshot.exists()) {
-			FileUtils.copyFileToDir(manualScreenshot, sceneDir);
-			manualScreenshot.delete();
-		}
-
-		StorageOperations.deleteDir(new File(projectDir, IMAGE_DIRECTORY_NAME));
-		StorageOperations.deleteDir(new File(projectDir, SOUND_DIRECTORY_NAME));
-
-		setFileReferences(project);
-
-		loadSaveLock.unlock();
-		return project;
+//		loadSaveLock.lock();
+//
+//		File projectDir = new File(buildProjectPath(projectName));
+//
+//		new File(projectDir, IMAGE_DIRECTORY_NAME).mkdir();
+//		new File(projectDir, SOUND_DIRECTORY_NAME).mkdir();
+//
+//		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
+//
+//		prepareXstream(SupportProject.class, SupportDataContainer.class);
+//		SupportProject supportProject = (SupportProject) xstream.getProjectFromXML(xmlFile);
+//
+//		prepareXstream(Project.class, DataContainer.class);
+//		Project project = new Project(supportProject, context);
+//
+//		File sceneDir = new File(buildScenePath(projectName, project.getDefaultScene().getName()));
+//		StorageOperations.createSceneDirectory(sceneDir);
+//
+//		File automaticScreenshot = new File(projectDir, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+//		File manualScreenshot = new File(projectDir, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+//
+//		StorageOperations.copyDir(new File(projectDir, IMAGE_DIRECTORY_NAME), new File(sceneDir, IMAGE_DIRECTORY_NAME));
+//		StorageOperations.copyDir(new File(projectDir, SOUND_DIRECTORY_NAME), new File(sceneDir, SOUND_DIRECTORY_NAME));
+//
+//		if (automaticScreenshot.exists()) {
+//			FileUtils.copyFileToDir(automaticScreenshot, sceneDir);
+//			automaticScreenshot.delete();
+//		}
+//		if (manualScreenshot.exists()) {
+//			FileUtils.copyFileToDir(manualScreenshot, sceneDir);
+//			manualScreenshot.delete();
+//		}
+//
+//		StorageOperations.deleteDir(new File(projectDir, IMAGE_DIRECTORY_NAME));
+//		StorageOperations.deleteDir(new File(projectDir, SOUND_DIRECTORY_NAME));
+//
+//		setFileReferences(project);
+//
+//		loadSaveLock.unlock();
+//		return project;
+		return null;
 	}
 
 	public boolean saveProject(Project project) {

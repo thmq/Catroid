@@ -394,7 +394,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	private void setVariableReferencesOfClonedSprite(Sprite cloneSprite) {
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
-		List<UserVariable> clonedSpriteVariables = dataContainer.getOrCreateVariableListForSprite(cloneSprite);
+		List<UserVariable> clonedSpriteVariables = dataContainer.getSpriteVariables(cloneSprite);
 		cloneSprite.updateUserVariableReferencesInUserVariableBricks(clonedSpriteVariables);
 
 		List<UserVariable> clonedProjectVariables = dataContainer.getProjectVariables();
@@ -403,8 +403,8 @@ public class Sprite implements Serializable, Cloneable {
 
 	private void cloneSpriteVariables(Scene currentScene, Sprite cloneSprite) {
 		DataContainer userVariables = currentScene.getDataContainer();
-		List<UserVariable> originalSpriteVariables = userVariables.getOrCreateVariableListForSprite(this);
-		List<UserVariable> clonedSpriteVariables = userVariables.getOrCreateVariableListForSprite(cloneSprite);
+		List<UserVariable> originalSpriteVariables = userVariables.getSpriteVariables(this);
+		List<UserVariable> clonedSpriteVariables = userVariables.getSpriteVariables(cloneSprite);
 		for (UserVariable variable : originalSpriteVariables) {
 			clonedSpriteVariables.add(new UserVariable(variable.getName(), variable.getValue()));
 		}

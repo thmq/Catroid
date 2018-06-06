@@ -64,7 +64,7 @@ public class SpriteTest extends AndroidTestCase {
 		sprite = new SingleSprite("testSprite");
 		project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.getDefaultScene().addSprite(sprite);
-		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
+		project.getDefaultScene().getDataContainer().addSpriteUserVariable(sprite, LOCAL_VARIABLE_NAME);
 		project.getDefaultScene().getDataContainer()
 				.getUserVariable(sprite, LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);
 
@@ -154,7 +154,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals(LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
 
 		List<UserVariable> userVariableList = project.getDefaultScene().getDataContainer()
-				.getOrCreateVariableListForSprite(clonedSprite);
+				.getSpriteVariables(clonedSprite);
 
 		Set<String> hashSet = new HashSet<>();
 		for (UserVariable userVariable : userVariableList) {
@@ -177,7 +177,7 @@ public class SpriteTest extends AndroidTestCase {
 		Brick textBrick = new ShowTextBrick(10, 10);
 		secondScript.addBrick(textBrick);
 		sprite2.addScript(secondScript);
-		secondScene.getDataContainer().addSpriteUserVariableToSprite(sprite2, variableName);
+		secondScene.getDataContainer().addSpriteUserVariable(sprite2, variableName);
 		UserVariable userVariable = secondScene.getDataContainer().getUserVariable(sprite2, variableName);
 		userVariable.setValue(LOCAL_VARIABLE_VALUE);
 		userVariable.setVisible(false);

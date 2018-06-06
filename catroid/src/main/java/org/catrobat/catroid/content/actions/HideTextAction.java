@@ -74,10 +74,6 @@ public class HideTextAction extends TemporalAction {
 			List<UserVariable> spriteVariableList = spriteVariableMap.get(sprite);
 			setVariablesVisible(spriteVariableList);
 		}
-		if (userBrick != null) {
-			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
-			setVariablesVisible(userBrickVariableList);
-		}
 	}
 
 	private void setVariablesVisible(List<UserVariable> variableList) {

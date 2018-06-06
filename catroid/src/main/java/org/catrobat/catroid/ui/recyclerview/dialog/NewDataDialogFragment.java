@@ -44,8 +44,6 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
 
-import java.util.List;
-
 public class NewDataDialogFragment extends DialogFragment {
 
 	public static final String TAG = NewDataDialogFragment.class.getSimpleName();
@@ -114,62 +112,58 @@ public class NewDataDialogFragment extends DialogFragment {
 		}
 
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
-		boolean isGlobal = (radioGroup.getCheckedRadioButtonId() == R.id.global);
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		boolean isGlobal = radioGroup.getCheckedRadioButtonId() == R.id.global;
+
 		if (makeList.isChecked()) {
 			if (!isListNameValid(name, isGlobal)) {
 				inputLayout.setError(getString(R.string.name_already_exists));
 				return false;
 			}
 
-			UserList item;
 			if (isGlobal) {
-				item = dataContainer.addProjectUserList(name);
+				newDataInterface.addItem(dataContainer.addProjectUserList(name));
 			} else {
-				item = dataContainer.addSpriteUserList(name);
+				newDataInterface.addItem(dataContainer.addSpriteUserList(currentSprite, name));
 			}
-			newDataInterface.addItem(item);
-		} else {
-			if (!isVariableNameValid(name, isGlobal)) {
-				inputLayout.setError(getString(R.string.name_already_exists));
-				return false;
-			}
+			return true;
+		}
 
-			UserVariable item;
-			if (isGlobal) {
-				item = dataContainer.addProjectUserVariable(name);
-			} else {
-				item = dataContainer.addSpriteUserVariable(name);
-			}
-			newDataInterface.addItem(item);
+		if (!isVariableNameValid(name, isGlobal)) {
+			inputLayout.setError(getString(R.string.name_already_exists));
+			return false;
+		}
+
+		if (isGlobal) {
+			newDataInterface.addItem(dataContainer.addProjectUserVariable(name));
+		} else {
+			newDataInterface.addItem(dataContainer.addSpriteUserVariable(currentSprite, name));
 		}
 		return true;
 	}
 
 	protected boolean isListNameValid(String name, boolean isGlobal) {
-		DataContainer currentData = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 
 		if (isGlobal) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-			return !currentData.existListInAnySprite(sprites, name)
-					&& !currentData.existProjectListWithName(name);
-		} else {
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			return !currentData.existProjectListWithName(name)
-					&& !currentData.existSpriteListByName(currentSprite, name);
+			return !dataContainer.containsListInAnySprite(name) && !dataContainer.containsProjectList(name);
 		}
+
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		return !dataContainer.containsSpriteList(currentSprite, name) && !dataContainer.containsProjectList(name);
 	}
 
 	protected boolean isVariableNameValid(String name, boolean isGlobal) {
-		DataContainer currentData = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 
 		if (isGlobal) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-			return !currentData.variableExistsInAnySprite(sprites, name)
-					&& !currentData.existProjectVariableWithName(name);
-		} else {
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			return !currentData.existProjectVariableWithName(name)
-					&& !currentData.spriteVariableExistsByName(currentSprite, name);
+			return !dataContainer.containsVariableInAnySprite(name)
+					&& !dataContainer.containsProjectVariable(name);
 		}
+
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		return !dataContainer.containsSpriteVariable(currentSprite, name)
+				&& !dataContainer.containsProjectVariable(name);
 	}
 }

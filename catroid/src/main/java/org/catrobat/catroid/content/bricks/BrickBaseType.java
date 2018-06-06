@@ -29,7 +29,6 @@ import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
@@ -54,11 +53,6 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		this.commentedOut = commentedOut;
-	}
-
-	@Override
-	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
-		return this.getClass().equals(brick.getClass());
 	}
 
 	@Override
@@ -138,8 +132,4 @@ public abstract class BrickBaseType implements Brick {
 
 	@Override
 	public abstract List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-	}
 }

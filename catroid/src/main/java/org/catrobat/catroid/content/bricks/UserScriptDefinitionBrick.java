@@ -53,7 +53,6 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
-import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -310,11 +309,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 	@Override
 	public void onClick(View eventOrigin) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
-		UserBrickElementEditorFragment.showFragment(view, this);
 	}
 
 	@Override

@@ -141,8 +141,4 @@ public interface Brick extends Serializable, Cloneable {
 	void setAnimationState(boolean animationState);
 
 	void setAlpha(int alphaFull);
-
-	boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current);
-
-	void storeDataForBackPack(Sprite sprite);
 }

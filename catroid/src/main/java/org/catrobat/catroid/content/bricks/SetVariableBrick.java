@@ -168,10 +168,7 @@ public class SetVariableBrick extends UserVariableBrick {
 
 	@Override
 	public SetVariableBrick clone() {
-		SetVariableBrick clonedBrick = new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE)
-				.clone(), userVariable);
-		clonedBrick.setBackPackedData(backPackedData);
-		return clonedBrick;
+		return new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE).clone(), userVariable);
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {

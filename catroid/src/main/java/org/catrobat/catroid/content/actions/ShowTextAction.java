@@ -66,7 +66,7 @@ public class ShowTextAction extends TemporalAction {
 			Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
 			Sprite currentSprite = sprite;
 			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
-			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
+
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, sprite, userBrick);
@@ -88,7 +88,6 @@ public class ShowTextAction extends TemporalAction {
 
 			setVariablesVisible(variableList);
 			setVariablesVisible(spriteVariableList);
-			setVariablesVisible(userBrickVariableList);
 		} catch (InterpretationException e) {
 			Log.d(TAG, "InterpretationException: " + e);
 		}

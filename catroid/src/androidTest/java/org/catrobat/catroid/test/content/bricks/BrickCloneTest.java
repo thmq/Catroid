@@ -204,7 +204,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		project.getDefaultScene().addSprite(sprite);
 		StartScript script = new StartScript();
 		sprite.addScript(script);
-		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, VARIABLE_NAME);
+		project.getDefaultScene().getDataContainer().addSpriteUserVariable(sprite, VARIABLE_NAME);
 		UserVariable spriteVariable = project.getDefaultScene().getDataContainer().getUserVariable(sprite, VARIABLE_NAME);
 		Formula formula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, VARIABLE_NAME, null));
 

@@ -29,6 +29,7 @@ import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
@@ -59,20 +60,18 @@ public class NewListDialogFragment extends NewDataDialogFragment {
 
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		boolean isGlobal = (radioGroup.getCheckedRadioButtonId() == R.id.global);
-		if (!isVariableNameValid(name, isGlobal)) {
+
+		if (!isListNameValid(name, isGlobal)) {
 			inputLayout.setError(getString(R.string.name_already_exists));
 			return false;
 		}
 
-		UserList userList;
-
 		if (isGlobal) {
-			userList = dataContainer.addProjectUserList(name);
+			newListInterface.onNewList(dataContainer.addProjectUserList(name));
 		} else {
-			userList = dataContainer.addSpriteUserList(name);
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			newListInterface.onNewList(dataContainer.addSpriteUserList(currentSprite, name));
 		}
-
-		newListInterface.onNewList(userList);
 		return true;
 	}
 

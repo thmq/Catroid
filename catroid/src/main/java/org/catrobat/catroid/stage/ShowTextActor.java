@@ -95,7 +95,7 @@ public class ShowTextActor extends Actor {
 		List<UserVariable> projectVariableList = dataContainer.getProjectVariables();
 		Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
 		List<UserVariable> spriteVariableList = spriteVariableMap.get(sprite);
-		List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
+		List<UserVariable> userBrickVariableList = dataContainer.getUserBrickVariables(userBrick);
 
 		drawVariables(projectVariableList, batch);
 		drawVariables(spriteVariableList, batch);

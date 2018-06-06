@@ -199,31 +199,31 @@ public class Scene implements Serializable {
 			}
 		}
 
-		for (String variable : variables) {
-			if (dataContainer.variableExistsInAnySprite(spriteList, variable)) {
-				return false;
-			}
-			if (!dataContainer.existProjectVariableWithName(variable)
-					&& !dataContainer.existUserVariableWithName(variable)) {
-				dataContainer.addProjectUserVariable(variable);
-			}
-		}
-
-		for (String list : lists) {
-			if (dataContainer.existListInAnySprite(spriteList, list)) {
-				return false;
-			}
-			if (!dataContainer.existProjectListWithName(list)) {
-				dataContainer.addProjectUserList(list);
-			}
-		}
+//		for (String variable : variables) {
+//			if (dataContainer.variableExistsInAnySprite(spriteList, variable)) {
+//				return false;
+//			}
+//			if (!dataContainer.existProjectVariableWithName(variable)
+//					&& !dataContainer.existUserVariableWithName(variable)) {
+//				dataContainer.addProjectUserVariable(variable);
+//			}
+//		}
+//
+//		for (String list : lists) {
+//			if (dataContainer.existListInAnySprite(spriteList, list)) {
+//				return false;
+//			}
+//			if (!dataContainer.existProjectListWithName(list)) {
+//				dataContainer.addProjectUserList(list);
+//			}
+//		}
 
 		return true;
 	}
 
 	public void removeAllClones() {
 		ProjectManager.getInstance().getCurrentProject().removeInvalidVariablesAndLists(dataContainer);
-		dataContainer.removeVariablesOfClones();
+		dataContainer.removeAllDataObjectsOfClones();
 		for (Sprite s : new ArrayList<>(spriteList)) {
 			if (s.isClone()) {
 				spriteList.remove(s);

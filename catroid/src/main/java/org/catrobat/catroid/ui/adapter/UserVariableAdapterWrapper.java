@@ -117,12 +117,4 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 	public void setItemLayout(int itemLayout, int textViewId) {
 		dataAdapter.setItemLayout(itemLayout, textViewId);
 	}
-
-	public boolean isTouchInDropDownView() {
-		return isTouchInDropDownView;
-	}
-
-	public void resetIsTouchInDropDownView() {
-		isTouchInDropDownView = false;
-	}
 }

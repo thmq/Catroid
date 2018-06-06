@@ -146,9 +146,7 @@ public class AskBrick extends UserVariableBrick {
 
 	@Override
 	public AskBrick clone() {
-		AskBrick clonedBrick = new AskBrick(getFormulaWithBrickField(BrickField.ASK_QUESTION).clone(), userVariable);
-		clonedBrick.setBackPackedData(backPackedData);
-		return clonedBrick;
+		return new AskBrick(getFormulaWithBrickField(BrickField.ASK_QUESTION).clone(), userVariable);
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {
