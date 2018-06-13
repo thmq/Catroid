@@ -97,9 +97,9 @@ public class ParserTestUserLists extends AndroidTestCase {
 //		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 //
 //		dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
-////		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
+////		dataContainer.addGlobalList(PROJECT_USER_LIST_NAME);
 ////		dataContainer.addSpriteUserListToSprite(firstSprite, SPRITE_USER_LIST_NAME);
-////		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME_2);
+////		dataContainer.addGlobalList(PROJECT_USER_LIST_NAME_2);
 //	}
 //
 //	public void testUserListInterpretationMultipleStringAndNumbers() {
@@ -146,9 +146,9 @@ public class ParserTestUserLists extends AndroidTestCase {
 //	}
 //
 //	public void testUserListReset() {
-//		dataContainer.addSpriteUserList(SPRITE_USER_LIST_NAME);
-//		dataContainer.addSpriteUserList(PROJECT_USER_LIST_NAME_2);
-//		dataContainer.addSpriteUserList(PROJECT_USER_LIST_NAME);
+//		dataContainer.addLocalList(SPRITE_USER_LIST_NAME);
+//		dataContainer.addLocalList(PROJECT_USER_LIST_NAME_2);
+//		dataContainer.addLocalList(PROJECT_USER_LIST_NAME);
 //
 //		dataContainer.getUserList(firstSprite, SPRITE_USER_LIST_NAME).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
 //		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
@@ -169,9 +169,9 @@ public class ParserTestUserLists extends AndroidTestCase {
 //	}
 //
 //	public void testFunctionListItem() {
-//		dataContainer.addSpriteUserList(PROJECT_USER_LIST_NAME);
+//		dataContainer.addLocalList(PROJECT_USER_LIST_NAME);
 //		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
-//		dataContainer.addProjectUserVariable(PROJECT_USER_VARIABLE);
+//		dataContainer.addGlobalVariable(PROJECT_USER_VARIABLE);
 //
 //		String index = "1";
 //		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index,
@@ -198,39 +198,39 @@ public class ParserTestUserLists extends AndroidTestCase {
 //				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0,
 //				firstSprite);
 //
-//		dataContainer.getUserVariable(firstSprite, PROJECT_USER_VARIABLE).setValue("1");
+//		dataContainer.getLocalVariable(firstSprite, PROJECT_USER_VARIABLE).setValue("1");
 //		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE,
 //				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0,
 //				firstSprite);
 //
-//		dataContainer.getUserVariable(firstSprite, PROJECT_USER_VARIABLE).setValue("0");
+//		dataContainer.getLocalVariable(firstSprite, PROJECT_USER_VARIABLE).setValue("0");
 //		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE,
 //				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "",
 //				firstSprite);
 //
-//		dataContainer.getUserVariable(firstSprite, PROJECT_USER_VARIABLE).setValue("4");
+//		dataContainer.getLocalVariable(firstSprite, PROJECT_USER_VARIABLE).setValue("4");
 //		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE,
 //				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "",
 //				firstSprite);
 //
-//		dataContainer.getUserVariable(firstSprite, PROJECT_USER_VARIABLE).setValue(1d);
+//		dataContainer.getLocalVariable(firstSprite, PROJECT_USER_VARIABLE).setValue(1d);
 //		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE,
 //				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0,
 //				firstSprite);
 //
-//		dataContainer.getUserVariable(firstSprite, PROJECT_USER_VARIABLE).setValue(0d);
+//		dataContainer.getLocalVariable(firstSprite, PROJECT_USER_VARIABLE).setValue(0d);
 //		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE,
 //				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "",
 //				firstSprite);
 //
-//		dataContainer.getUserVariable(firstSprite, PROJECT_USER_VARIABLE).setValue(4d);
+//		dataContainer.getLocalVariable(firstSprite, PROJECT_USER_VARIABLE).setValue(4d);
 //		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE,
 //				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "",
 //				firstSprite);
 //	}
 //
 //	public void testFunctionLength() {
-//		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
+//		dataContainer.addGlobalList(PROJECT_USER_LIST_NAME);
 //		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(new ArrayList<Object>());
 //
 //		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
@@ -259,7 +259,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 //	}
 //
 //	public void testFunctionNumberOfItems() {
-//		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
+//		dataContainer.addGlobalList(PROJECT_USER_LIST_NAME);
 //
 //		FormulaEditorTestUtil.testSingleParameterFunction(Functions.NUMBER_OF_ITEMS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
 //				(double) 0, firstSprite);
@@ -270,9 +270,9 @@ public class ParserTestUserLists extends AndroidTestCase {
 //	}
 //
 //	public void testFunctionContains() {
-//		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
+//		dataContainer.addGlobalList(PROJECT_USER_LIST_NAME);
 //		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
-//		dataContainer.addProjectUserVariable(PROJECT_USER_VARIABLE);
+//		dataContainer.addGlobalVariable(PROJECT_USER_VARIABLE);
 //
 //		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
 //				InternTokenType.NUMBER, "1", 1d, firstSprite);
@@ -291,7 +291,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 //		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
 //				InternTokenType.STRING, "Hello", 1d, firstSprite);
 //
-//		dataContainer.getUserVariable(firstSprite, PROJECT_USER_VARIABLE).setValue("Hello");
+//		dataContainer.getLocalVariable(firstSprite, PROJECT_USER_VARIABLE).setValue("Hello");
 //		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
 //				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE, 1d, firstSprite);
 //	}

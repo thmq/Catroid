@@ -89,7 +89,7 @@ public class FormulaEditorTest {
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick();
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		UserVariable userVariable = dataContainer.addProjectUserVariable("Global1");
+		UserVariable userVariable = dataContainer.addGlobalVariable("Global1");
 		setVariableBrick.setUserVariable(userVariable);
 
 		script.addBrick(setVariableBrick);

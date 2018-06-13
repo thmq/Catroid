@@ -31,198 +31,97 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class DataContainer extends BaseDataContainer {
+public class DataContainer implements Serializable {
 
-	private transient List<UserVariable> projectVariables = new ArrayList<>();
-	private transient List<UserList> projectLists = new ArrayList<>();
+	private static final long serialVersionUID = 1L;
+
+//	@XStreamAlias("objectVariableList")
+//	private Map<Sprite, List<UserVariable>> spriteVariableMap = new HashMap<>();
+//
+//	@XStreamAlias("objectListOfList")
+//	private Map<Sprite, List<UserList>> spriteListMap = new HashMap<>();
+//
+//	@XStreamAlias("userBrickVariableList")
+//	private Map<UserBrick, List<UserVariable>> userBrickVariableMap = new HashMap<>();
+
+	private transient UserDataMap<Sprite, UserVariable> variableContainer = new UserDataMap<>(spriteVariableMap);
+	private transient UserDataMap<Sprite, UserList> listContainer = new UserDataMap<>(spriteListMap);
+	private transient UserDataMap<UserBrick, UserVariable> userBrickVariableContainer = new UserDataMap<>(userBrickVariableMap);
+
+	private transient UserDataArrayList<UserVariable> projectVariables = new UserDataArrayList<>(new ArrayList<UserVariable>());
+	private transient UserDataArrayList<UserList> projectLists = new UserDataArrayList<>(new ArrayList<UserList>());
 
 	public DataContainer() {
-		spriteVariables = new HashMap<>();
-		spriteListOfLists = new HashMap<>();
 	}
 
 	public DataContainer(Project project) {
-		spriteVariables = new HashMap<>();
-		spriteListOfLists = new HashMap<>();
-
-		projectVariables = project.getProjectVariables();
-		projectLists = project.getProjectLists();
+		projectVariables = new UserDataArrayList<>(project.getProjectVariables());
+		projectLists = new UserDataArrayList<>(project.getProjectLists());
 	}
 
-	public DataAdapter createDataAdapter(Context context, Sprite sprite) {
-		return null;
+	public List<UserVariable> getGlobalVariables() {
+		return projectVariables.getAll();
 	}
 
-	public DataAdapter createDataAdapter(Context context, UserBrick userBrick, Sprite sprite) {
-		return null;
+	public List<UserList> getGlobalLists() {
+		return projectLists.getAll();
 	}
 
-	public boolean containsProjectVariable(String name) {
-		for (UserVariable var : projectVariables) {
-			if (var.getName().equals(name)) {
-				return true;
-			}
-		}
-		return false;
+	public UserVariable getLocalVariable(Sprite sprite, String name) {
+		return variableContainer.getUserData(sprite, name);
 	}
 
-	public boolean containsVariableInAnySprite(String name) {
-		for (Sprite sprite : spriteVariables.keySet()) {
-			if (containsSpriteVariable(sprite, name)) {
-				return true;
-			}
-		}
-		return false;
+	public List<UserVariable> getLocalVariables(Sprite sprite) {
+		return variableContainer.get(sprite);
 	}
 
-	public boolean containsSpriteVariable(Sprite sprite, String name) {
-		return getUserVariable(sprite, name) != null;
+	public List<UserList> getLocalLists(Sprite sprite) {
+		return listContainer.get(sprite);
 	}
 
-	public boolean containsProjectList(String name) {
-		for (UserList var : projectLists) {
-			if (var.getName().equals(name)) {
-				return true;
-			}
-		}
-		return false;
+	public UserList getLocalList(Sprite sprite, String name) {
+		return listContainer.getUserData(sprite, name);
 	}
 
-	public boolean containsListInAnySprite(String name) {
-		for (Sprite sprite : spriteListOfLists.keySet()) {
-			if (containsSpriteList(sprite, name)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	public boolean containsSpriteList(Sprite sprite, String name) {
-		return getUserList(sprite, name) != null;
-	}
-
-	public UserVariable getUserVariable(Sprite sprite, String name) {
-		if (spriteVariables.containsKey(sprite)) {
-			for (UserVariable var : spriteVariables.get(sprite)) {
-				if (var.getName().equals(name)) {
-					return var;
-				}
-			}
-		}
-
-		for (UserVariable var : projectVariables) {
-			if (var.getName().equals(name)) {
-				return var;
-			}
-		}
-
-		return null;
-	}
-
-	public UserVariable getUserVariable(Sprite sprite, String name, UserBrick userBrick) {
-		if (userBrickVariables.containsKey(userBrick)) {
-			for (UserVariable var : userBrickVariables.get(userBrick)) {
-				if (var.getName().equals(name)) {
-					return var;
-				}
-			}
-		}
-		return getUserVariable(sprite, name);
-	}
-
-	public List<UserVariable> getSpriteVariables(Sprite sprite) {
-		List<UserVariable> vars = new ArrayList<>();
-
-		if (spriteVariables.containsKey(sprite)) {
-			vars.addAll(spriteVariables.get(sprite));
-		}
-		return vars;
-	}
-
-	public UserList getUserList(Sprite sprite, String name) {
-		if (spriteListOfLists.containsKey(sprite)) {
-			for (UserList list : spriteListOfLists.get(sprite)) {
-				if (list.getName().equals(name)) {
-					return list;
-				}
-			}
-		}
-		for (UserList list : projectLists) {
-			if (list.getName().equals(name)) {
-				return list;
-			}
-		}
-		return null;
-	}
-
-	public List<UserList> getSpriteLists(Sprite sprite) {
-		List<UserList> lists = new ArrayList<>();
-		if (spriteListOfLists.containsKey(sprite)) {
-			lists.addAll(spriteListOfLists.get(sprite));
-		}
-		return lists;
+	public UserVariable getLocalVariable(UserBrick userBrick, String name) {
+		return userBrickVariableContainer.getUserData(userBrick, name);
 	}
 
 	public List<UserVariable> getUserBrickVariables(UserBrick userBrick) {
-		if (userBrickVariables.containsKey(userBrick)) {
-			return userBrickVariables.get(userBrick);
-		}
+		return userBrickVariableContainer.get(userBrick);
+	}
+
+	public UserVariable addGlobalVariable(String name) {
 		return null;
 	}
 
-	public UserVariable addSpriteUserVariable(Sprite sprite, String name) {
-		UserVariable var = new UserVariable(name);
-
-		if (spriteVariables.containsKey(sprite)) {
-			spriteVariables.get(sprite).add(var);
-		} else {
-			spriteVariables.put(sprite, Collections.singletonList(var));
-		}
-
-		return var;
+	public UserList addGlobalList(String name) {
+		return null;
 	}
 
-	public UserVariable addProjectUserVariable(String name) {
-		UserVariable var = new UserVariable(name);
-		projectVariables.add(var);
-		return var;
+	public UserVariable addLocalVariable(Sprite sprite, String name) {
+		return null;
 	}
 
-	public UserList addSpriteUserList(Sprite sprite, String name) {
-		UserList list = new UserList(name);
-
-		if (spriteListOfLists.containsKey(sprite)) {
-			spriteListOfLists.get(sprite).add(list);
-		} else {
-			spriteListOfLists.put(sprite, Collections.singletonList(list));
-		}
-
-		return list;
-	}
-
-	public UserList addProjectUserList(String name) {
-		UserList list = new UserList(name);
-		projectLists.add(list);
-		return list;
+	public UserList addLocalList(Sprite sprite, String name) {
+		return null;
 	}
 
 	public void removeAllDataObjectsOfClones() {
-		for (Iterator<Map.Entry<Sprite, List<UserVariable>>> iterator = spriteVariables.entrySet().iterator();
+		for (Iterator<Map.Entry<Sprite, List<UserVariable>>> iterator = spriteVariableMap.entrySet().iterator();
 				iterator.hasNext(); ) {
 			if (iterator.next().getKey().isClone()) {
 				iterator.remove();
 			}
 		}
 
-		for (Iterator<Map.Entry<Sprite, List<UserList>>> iterator = spriteListOfLists.entrySet().iterator();
+		for (Iterator<Map.Entry<Sprite, List<UserList>>> iterator = spriteListMap.entrySet().iterator();
 				iterator.hasNext(); ) {
 			if (iterator.next().getKey().isClone()) {
 				iterator.remove();
@@ -231,30 +130,30 @@ public class DataContainer extends BaseDataContainer {
 	}
 
 	public void removeAllDataObjects(Sprite sprite) {
-		spriteVariables.remove(sprite);
-		spriteListOfLists.remove(sprite);
+		spriteVariableMap.remove(sprite);
+		spriteListMap.remove(sprite);
 
 		for (UserBrick userBrick : sprite.getUserBrickList()) {
-			userBrickVariables.remove(userBrick);
+			userBrickVariableMap.remove(userBrick);
 		}
 	}
 
 	public void resetAllDataObjects() {
-		for (UserVariable var : projectVariables) {
+		for (UserVariable var : projectVariables.getAll()) {
 			var.setValue(0.0);
 		}
 
-		for (UserList list : projectLists) {
+		for (UserList list : projectLists.getAll()) {
 			list.getList().clear();
 		}
 
-		for (List<UserVariable> vars : spriteVariables.values()) {
+		for (List<UserVariable> vars : spriteVariableMap.values()) {
 			for (UserVariable var : vars) {
 				var.setValue(0.0);
 			}
 		}
 
-		for (List<UserList> lists : spriteListOfLists.values()) {
+		for (List<UserList> lists : spriteListMap.values()) {
 			for (UserList var : lists) {
 				var.getList().clear();
 			}
@@ -262,23 +161,19 @@ public class DataContainer extends BaseDataContainer {
 	}
 
 	public void setProjectUserDataObjects(Project project) {
-		projectVariables = project.getProjectVariables();
-		projectLists = project.getProjectLists();
+		projectVariables = new UserDataArrayList<>(project.getProjectVariables());
+		projectLists = new UserDataArrayList<>(project.getProjectLists());
 	}
 
 	public void setUserBrickVariables(UserBrick key, List<UserVariable> userVariables) {
-		userBrickVariables.put(key, userVariables);
+		userBrickVariableMap.put(key, userVariables);
 	}
 
-	public Map<Sprite, List<UserVariable>> getSpriteVariableMap() {
-		return spriteVariables;
+	public DataAdapter createDataAdapter(Context context, Sprite sprite) {
+		return null;
 	}
 
-	public List<UserVariable> getProjectVariables() {
-		return projectVariables;
-	}
-
-	public List<UserList> getProjectLists() {
-		return projectLists;
+	public DataAdapter createDataAdapter(Context context, UserBrick userBrick, Sprite sprite) {
+		return null;
 	}
 }

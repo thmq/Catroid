@@ -304,7 +304,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretUserList(Sprite sprite) {
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-		UserList userList = dataContainer.getUserList(sprite, value);
+		UserList userList = dataContainer.getLocalList(sprite, value);
 		if (userList == null) {
 			return NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE;
 		}
@@ -374,7 +374,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretUserVariable(Sprite sprite) {
 		DataContainer userVariables = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-		UserVariable userVariable = userVariables.getUserVariable(sprite, value);
+		UserVariable userVariable = userVariables.getLocalVariable(sprite, value);
 		if (userVariable == null) {
 			return NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 		}
@@ -544,7 +544,7 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionContains(Object right, Sprite sprite) {
 		if (leftChild.getElementType() == ElementType.USER_LIST) {
 			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
+			UserList userList = dataContainer.getLocalList(sprite, leftChild.getValue());
 
 			if (userList == null) {
 				return 0d;
@@ -564,7 +564,7 @@ public class FormulaElement implements Serializable {
 		UserList userList = null;
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
 			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-			userList = dataContainer.getUserList(sprite, rightChild.getValue());
+			userList = dataContainer.getLocalList(sprite, rightChild.getValue());
 		}
 
 		if (userList == null) {
@@ -639,7 +639,7 @@ public class FormulaElement implements Serializable {
 		}
 		if (leftChild.type == ElementType.USER_LIST) {
 			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
+			UserList userList = dataContainer.getLocalList(sprite, leftChild.getValue());
 			if (userList == null) {
 				return 0d;
 			}
@@ -1014,7 +1014,7 @@ public class FormulaElement implements Serializable {
 		if (type == ElementType.USER_VARIABLE) {
 			DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
 					.getDataContainer();
-			UserVariable userVariable = userVariableContainer.getUserVariable(sprite, value);
+			UserVariable userVariable = userVariableContainer.getLocalVariable(sprite, value);
 			Object userVariableValue = userVariable.getValue();
 			return userVariableValue instanceof String;
 		}
@@ -1024,7 +1024,7 @@ public class FormulaElement implements Serializable {
 	private int handleLengthUserVariableParameter(Sprite sprite) {
 		DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
 				.getDataContainer();
-		UserVariable userVariable = userVariableContainer.getUserVariable(sprite, leftChild.value);
+		UserVariable userVariable = userVariableContainer.getLocalVariable(sprite, leftChild.value);
 
 		Object userVariableValue = userVariable.getValue();
 		if (userVariableValue instanceof String) {
@@ -1041,7 +1041,7 @@ public class FormulaElement implements Serializable {
 	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay()
 				.getDataContainer();
-		UserList userList = dataContainer.getUserList(sprite, leftChild.value);
+		UserList userList = dataContainer.getLocalList(sprite, leftChild.value);
 
 		if (userList == null) {
 			return 0;

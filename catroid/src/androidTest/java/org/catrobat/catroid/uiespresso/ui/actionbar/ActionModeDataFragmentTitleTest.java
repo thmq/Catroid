@@ -90,9 +90,9 @@ public class ActionModeDataFragmentTitleTest {
 		script.addBrick(new ChangeSizeByNBrick(0));
 
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
-		dataContainer.addProjectUserVariable("var1");
-		dataContainer.addProjectUserVariable("var2");
-		dataContainer.addProjectUserList("list1");
-		dataContainer.addProjectUserList("list2");
+		dataContainer.addGlobalVariable("var1");
+		dataContainer.addGlobalVariable("var2");
+		dataContainer.addGlobalList("list1");
+		dataContainer.addGlobalList("list2");
 	}
 }

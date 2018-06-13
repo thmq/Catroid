@@ -67,10 +67,10 @@ public class NewVariableDialogFragment extends NewDataDialogFragment {
 		}
 
 		if (isGlobal) {
-			newVariableInterface.onNewVariable(dataContainer.addProjectUserVariable(name));
+			newVariableInterface.onNewVariable(dataContainer.addGlobalVariable(name));
 		} else {
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			newVariableInterface.onNewVariable(dataContainer.addSpriteUserVariable(currentSprite, name));
+			newVariableInterface.onNewVariable(dataContainer.addLocalVariable(currentSprite, name));
 		}
 		return true;
 	}

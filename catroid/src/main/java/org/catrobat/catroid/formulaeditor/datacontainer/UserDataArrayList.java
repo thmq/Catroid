@@ -20,29 +20,46 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.formulaeditor.datacontainer;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import org.catrobat.catroid.formulaeditor.UserData;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-
-import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class BaseDataContainer implements Serializable {
-	protected static final long serialVersionUID = 1L;
+public class UserDataArrayList<E extends UserData> {
 
-	@XStreamAlias("objectVariableList")
-	public Map<Sprite, List<UserVariable>> spriteVariables;
+	private List<E> list;
 
-	@XStreamAlias("userBrickVariableList")
-	Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
+	public UserDataArrayList(List<E> userDataList) {
+		list = userDataList;
+	}
 
-	@XStreamAlias("objectListOfList")
-	public Map<Sprite, List<UserList>> spriteListOfLists;
+	public boolean add(E element) {
+		return !contains(element.getName()) && list.add(element);
+	}
+
+	public E get(String name) {
+		for (E element : list) {
+			if (element.getName().equals(name)) {
+				return element;
+			}
+		}
+
+		return null;
+	}
+
+	public List<E> getAll() {
+		return list;
+	}
+
+	public boolean contains(String name) {
+		for (E element : list) {
+			if (element.getName().equals(name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

@@ -72,7 +72,7 @@ public class MultipleBroadcastsTest {
 		for (int i = 0; i < VALUES.length; i++) {
 			Sprite sprite = new SingleSprite("sprite" + i);
 			project.getDefaultScene().addSprite(sprite);
-			UserVariable userVariable = dataContainer.addProjectUserVariable("var" + i);
+			UserVariable userVariable = dataContainer.addGlobalVariable("var" + i);
 			Script sendBroadcastScript = new StartScript();
 			sprite.addScript(sendBroadcastScript);
 			sendBroadcastScript.addBrick(new BroadcastBrick(BROADCAST_MESSAGE_1));

@@ -29,18 +29,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
-
-import java.util.List;
-import java.util.Map;
 
 public class ShowTextAction extends TemporalAction {
 
@@ -59,13 +54,6 @@ public class ShowTextAction extends TemporalAction {
 		try {
 			int xPosition = this.xPosition.interpretInteger(sprite);
 			int yPosition = this.yPosition.interpretInteger(sprite);
-
-			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-			List<UserVariable> variableList = dataContainer.getProjectVariables();
-
-			Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
-			Sprite currentSprite = sprite;
-			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
 
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
@@ -86,22 +74,9 @@ public class ShowTextAction extends TemporalAction {
 				StageActivity.stageListener.addActor(actor);
 			}
 
-			setVariablesVisible(variableList);
-			setVariablesVisible(spriteVariableList);
+			variableToShow.setVisible(true);
 		} catch (InterpretationException e) {
 			Log.d(TAG, "InterpretationException: " + e);
-		}
-	}
-
-	private void setVariablesVisible(List<UserVariable> variableList) {
-		if (variableList == null) {
-			return;
-		}
-		for (UserVariable userVariable : variableList) {
-			if (userVariable.getName().equals(variableToShow.getName())) {
-				userVariable.setVisible(true);
-				break;
-			}
 		}
 	}
 

@@ -114,7 +114,7 @@ public class AskBrickStageTest {
 		ProjectManager.getInstance().setCurrentSprite(sprite1);
 
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		userVariable = dataContainer.addProjectUserVariable(userVariableName);
+		userVariable = dataContainer.addGlobalVariable(userVariableName);
 
 		firstBrickInScript = ScriptEvaluationGateBrick.appendToScript(sprite1StartScript);
 		Formula questionFormula = new Formula(

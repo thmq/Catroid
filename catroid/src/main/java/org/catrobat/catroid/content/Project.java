@@ -37,7 +37,6 @@ import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.BaseDataContainer;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
@@ -142,7 +141,7 @@ public class Project implements Serializable {
 //		sceneList.add(scene);
 //	}
 
-	public void removeInvalidVariablesAndLists(BaseDataContainer dataContainer) {
+	public void removeInvalidVariablesAndLists(DataContainer dataContainer) {
 		if (dataContainer == null) {
 			return;
 		}

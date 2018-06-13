@@ -154,9 +154,9 @@ public class WhenNfcBrickStageFromScriptTest {
 
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 
-		readTagId = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_ID);
-		readTagMessage = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_MESSAGE);
-		numDetectedTags = dataContainer.addProjectUserVariable(UiNFCTestUtils.NUM_DETECTED_TAGS);
+		readTagId = dataContainer.addGlobalVariable(UiNFCTestUtils.READ_TAG_ID);
+		readTagMessage = dataContainer.addGlobalVariable(UiNFCTestUtils.READ_TAG_MESSAGE);
+		numDetectedTags = dataContainer.addGlobalVariable(UiNFCTestUtils.NUM_DETECTED_TAGS);
 
 		Sprite sprite = new Sprite("testSprite");
 		WhenNfcScript script = new WhenNfcScript();

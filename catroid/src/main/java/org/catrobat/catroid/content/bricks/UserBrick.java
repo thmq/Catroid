@@ -188,10 +188,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		return formulaList;
 	}
 
-	public void appendBrickToScript(Brick brick) {
-		definitionBrick.appendBrickToScript(brick);
-	}
-
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {

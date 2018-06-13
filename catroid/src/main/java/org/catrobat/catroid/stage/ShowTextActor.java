@@ -42,7 +42,6 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.util.List;
-import java.util.Map;
 
 public class ShowTextActor extends Actor {
 
@@ -92,14 +91,13 @@ public class ShowTextActor extends Actor {
 	public void draw(Batch batch, float parentAlpha) {
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 
-		List<UserVariable> projectVariableList = dataContainer.getProjectVariables();
-		Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
-		List<UserVariable> spriteVariableList = spriteVariableMap.get(sprite);
-		List<UserVariable> userBrickVariableList = dataContainer.getUserBrickVariables(userBrick);
+		List<UserVariable> projectVariables = dataContainer.getGlobalVariables();
+		List<UserVariable> spriteVariables = dataContainer.getLocalVariables(sprite);
+		List<UserVariable> userBrickVariables = dataContainer.getUserBrickVariables(userBrick);
 
-		drawVariables(projectVariableList, batch);
-		drawVariables(spriteVariableList, batch);
-		drawVariables(userBrickVariableList, batch);
+		drawVariables(projectVariables, batch);
+		drawVariables(spriteVariables, batch);
+		drawVariables(userBrickVariables, batch);
 	}
 
 	private void drawVariables(List<UserVariable> variableList, Batch batch) {

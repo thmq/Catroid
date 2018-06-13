@@ -64,11 +64,11 @@ public class SpriteTest extends AndroidTestCase {
 		sprite = new SingleSprite("testSprite");
 		project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.getDefaultScene().addSprite(sprite);
-		project.getDefaultScene().getDataContainer().addSpriteUserVariable(sprite, LOCAL_VARIABLE_NAME);
+		project.getDefaultScene().getDataContainer().addLocalVariable(sprite, LOCAL_VARIABLE_NAME);
 		project.getDefaultScene().getDataContainer()
-				.getUserVariable(sprite, LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);
+				.getLocalVariable(sprite, LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);
 
-		project.getDefaultScene().getDataContainer().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
+		project.getDefaultScene().getDataContainer().addGlobalVariable(GLOBAL_VARIABLE_NAME);
 		project.getDefaultScene().getDataContainer()
 				.getUserVariable(null, GLOBAL_VARIABLE_NAME).setValue(GLOBAL_VARIABLE_VALUE);
 
@@ -147,14 +147,14 @@ public class SpriteTest extends AndroidTestCase {
 		Sprite clonedSprite = sprite.clone();
 
 		UserVariable clonedVariable = project.getDefaultScene().getDataContainer()
-				.getUserVariable(clonedSprite, LOCAL_VARIABLE_NAME);
+				.getLocalVariable(clonedSprite, LOCAL_VARIABLE_NAME);
 
 		assertNotNull(clonedVariable);
 		assertEquals(LOCAL_VARIABLE_NAME, clonedVariable.getName());
 		assertEquals(LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
 
 		List<UserVariable> userVariableList = project.getDefaultScene().getDataContainer()
-				.getSpriteVariables(clonedSprite);
+				.getLocalVariables(clonedSprite);
 
 		Set<String> hashSet = new HashSet<>();
 		for (UserVariable userVariable : userVariableList) {
@@ -177,8 +177,8 @@ public class SpriteTest extends AndroidTestCase {
 		Brick textBrick = new ShowTextBrick(10, 10);
 		secondScript.addBrick(textBrick);
 		sprite2.addScript(secondScript);
-		secondScene.getDataContainer().addSpriteUserVariable(sprite2, variableName);
-		UserVariable userVariable = secondScene.getDataContainer().getUserVariable(sprite2, variableName);
+		secondScene.getDataContainer().addLocalVariable(sprite2, variableName);
+		UserVariable userVariable = secondScene.getDataContainer().getLocalVariable(sprite2, variableName);
 		userVariable.setValue(LOCAL_VARIABLE_VALUE);
 		userVariable.setVisible(false);
 		ProjectManager.getInstance().setSceneToPlay(secondScene);
@@ -189,12 +189,12 @@ public class SpriteTest extends AndroidTestCase {
 		secondScript.run(sprite2, sequence);
 
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-		userVariable = dataContainer.getUserVariable(sprite2, variableName);
+		userVariable = dataContainer.getLocalVariable(sprite2, variableName);
 		assertFalse(userVariable.getVisible());
 
 		sequence.act(1f);
 
-		userVariable = dataContainer.getUserVariable(sprite2, variableName);
+		userVariable = dataContainer.getLocalVariable(sprite2, variableName);
 		assertTrue(userVariable.getVisible());
 	}
 }

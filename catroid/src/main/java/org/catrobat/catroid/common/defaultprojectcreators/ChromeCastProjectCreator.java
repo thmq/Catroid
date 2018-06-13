@@ -190,8 +190,8 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 
 			DataContainer userVariables = defaultProject.getDefaultScene().getDataContainer();
 
-			userVariables.addProjectUserVariable(varDirection);
-			UserVariable direction = userVariables.getUserVariable(backgroundSprite, varDirection);
+			userVariables.addGlobalVariable(varDirection);
+			UserVariable direction = userVariables.getLocalVariable(backgroundSprite, varDirection);
 
 			//Clouds
 			Sprite cloudSprite1 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName1);

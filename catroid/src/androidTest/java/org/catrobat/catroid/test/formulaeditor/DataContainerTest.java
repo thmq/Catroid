@@ -53,9 +53,9 @@ public class DataContainerTest {
 		String variableName = "variable0";
 
 		Sprite sprite = new Sprite("sprite");
-		UserVariable spriteVar = dataContainer.addSpriteUserVariable(sprite, variableName);
+		UserVariable spriteVar = dataContainer.addLocalVariable(sprite, variableName);
 
-		assertEquals(spriteVar, dataContainer.getUserVariable(sprite, variableName));
+		assertEquals(spriteVar, dataContainer.getLocalVariable(sprite, variableName));
 	}
 
 	@Test
@@ -65,8 +65,8 @@ public class DataContainerTest {
 		String variableName = "list0";
 
 		Sprite sprite = new Sprite("sprite");
-		UserList spriteList = dataContainer.addSpriteUserList(sprite, variableName);
+		UserList spriteList = dataContainer.addLocalList(sprite, variableName);
 
-		assertEquals(spriteList, dataContainer.getUserList(sprite, variableName));
+		assertEquals(spriteList, dataContainer.getLocalList(sprite, variableName));
 	}
 }

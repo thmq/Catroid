@@ -67,10 +67,10 @@ public class NewListDialogFragment extends NewDataDialogFragment {
 		}
 
 		if (isGlobal) {
-			newListInterface.onNewList(dataContainer.addProjectUserList(name));
+			newListInterface.onNewList(dataContainer.addGlobalList(name));
 		} else {
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			newListInterface.onNewList(dataContainer.addSpriteUserList(currentSprite, name));
+			newListInterface.onNewList(dataContainer.addLocalList(currentSprite, name));
 		}
 		return true;
 	}

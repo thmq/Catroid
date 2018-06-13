@@ -85,7 +85,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 
 	public void testStopCurrentScript() {
 		String variableName = "testVariable";
-		project.getDefaultScene().getDataContainer().addProjectUserVariable(variableName);
+		project.getDefaultScene().getDataContainer().addGlobalVariable(variableName);
 		UserVariable userVariable = project.getDefaultScene().getDataContainer().getUserVariable(null, variableName);
 		Sprite sprite = new Sprite("sprite");
 
@@ -124,7 +124,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 
 	public void testStopOtherScripts() {
 		String varName = "testVar";
-		project.getDefaultScene().getDataContainer().addProjectUserVariable(varName);
+		project.getDefaultScene().getDataContainer().addGlobalVariable(varName);
 		UserVariable userVar = project.getDefaultScene().getDataContainer().getUserVariable(null, varName);
 
 		Sprite sprite = new Sprite("sprite");

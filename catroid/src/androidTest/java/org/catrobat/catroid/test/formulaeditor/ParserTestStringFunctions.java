@@ -57,9 +57,9 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentScene()
 				.getDataContainer();
-		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME).setValue(
+		userVariableContainer.addGlobalVariable(PROJECT_USER_VARIABLE_NAME).setValue(
 				USER_VARIABLE_1_VALUE_TYPE_DOUBLE);
-		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME2).setValue(
+		userVariableContainer.addGlobalVariable(PROJECT_USER_VARIABLE_NAME2).setValue(
 				USER_VARIABLE_2_VALUE_TYPE_STRING);
 	}
 

@@ -38,8 +38,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
@@ -116,54 +114,56 @@ public class NewDataDialogFragment extends DialogFragment {
 
 		boolean isGlobal = radioGroup.getCheckedRadioButtonId() == R.id.global;
 
-		if (makeList.isChecked()) {
-			if (!isListNameValid(name, isGlobal)) {
-				inputLayout.setError(getString(R.string.name_already_exists));
-				return false;
-			}
-
-			if (isGlobal) {
-				newDataInterface.addItem(dataContainer.addProjectUserList(name));
-			} else {
-				newDataInterface.addItem(dataContainer.addSpriteUserList(currentSprite, name));
-			}
-			return true;
-		}
-
-		if (!isVariableNameValid(name, isGlobal)) {
-			inputLayout.setError(getString(R.string.name_already_exists));
-			return false;
-		}
-
-		if (isGlobal) {
-			newDataInterface.addItem(dataContainer.addProjectUserVariable(name));
-		} else {
-			newDataInterface.addItem(dataContainer.addSpriteUserVariable(currentSprite, name));
-		}
+//		if (makeList.isChecked()) {
+//			if (!isListNameValid(name, isGlobal)) {
+//				inputLayout.setError(getString(R.string.name_already_exists));
+//				return false;
+//			}
+//
+//			if (isGlobal) {
+//				newDataInterface.addItem(dataContainer.addGlobalList(name));
+//			} else {
+//				newDataInterface.addItem(dataContainer.addLocalList(currentSprite, name));
+//			}
+//			return true;
+//		}
+//
+//		if (!isVariableNameValid(name, isGlobal)) {
+//			inputLayout.setError(getString(R.string.name_already_exists));
+//			return false;
+//		}
+//
+//		if (isGlobal) {
+//			newDataInterface.addItem(dataContainer.addGlobalVariable(name));
+//		} else {
+//			newDataInterface.addItem(dataContainer.addLocalVariable(currentSprite, name));
+//		}
 		return true;
 	}
 
 	protected boolean isListNameValid(String name, boolean isGlobal) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
-
-		if (isGlobal) {
-			return !dataContainer.containsListInAnySprite(name) && !dataContainer.containsProjectList(name);
-		}
-
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		return !dataContainer.containsSpriteList(currentSprite, name) && !dataContainer.containsProjectList(name);
+//		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+//
+//		if (isGlobal) {
+//			return !dataContainer.containsListInAnySprite(name) && !dataContainer.containsProjectList(name);
+//		}
+//
+//		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+//		return !dataContainer.containsListInSprite(currentSprite, name) && !dataContainer.containsProjectList(name);
+		return false;
 	}
 
 	protected boolean isVariableNameValid(String name, boolean isGlobal) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
-
-		if (isGlobal) {
-			return !dataContainer.containsVariableInAnySprite(name)
-					&& !dataContainer.containsProjectVariable(name);
-		}
-
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		return !dataContainer.containsSpriteVariable(currentSprite, name)
-				&& !dataContainer.containsProjectVariable(name);
+//		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+//
+//		if (isGlobal) {
+//			return !dataContainer.containsVariableInAnySprite(name)
+//					&& !dataContainer.containsProjectVariable(name);
+//		}
+//
+//		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+//		return !dataContainer.containsVariableInSprite(currentSprite, name)
+//				&& !dataContainer.containsProjectVariable(name);
+		return false;
 	}
 }

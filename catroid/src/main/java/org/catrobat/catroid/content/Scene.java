@@ -205,7 +205,7 @@ public class Scene implements Serializable {
 //			}
 //			if (!dataContainer.existProjectVariableWithName(variable)
 //					&& !dataContainer.existUserVariableWithName(variable)) {
-//				dataContainer.addProjectUserVariable(variable);
+//				dataContainer.addGlobalVariable(variable);
 //			}
 //		}
 //
@@ -214,7 +214,7 @@ public class Scene implements Serializable {
 //				return false;
 //			}
 //			if (!dataContainer.existProjectListWithName(list)) {
-//				dataContainer.addProjectUserList(list);
+//				dataContainer.addGlobalList(list);
 //			}
 //		}
 
@@ -252,12 +252,12 @@ public class Scene implements Serializable {
 		for (Sprite sprite : spriteList) {
 			for (Brick brick : sprite.getAllBricks()) {
 				if (brick instanceof UserVariableBrick) {
-					((UserVariableBrick) brick).setUserVariable(dataContainer.getUserVariable(sprite,
+					((UserVariableBrick) brick).setUserVariable(dataContainer.getLocalVariable(sprite,
 							((UserVariableBrick) brick).getUserVariable().getName()));
 				}
 
 				if (brick instanceof UserListBrick) {
-					((UserListBrick) brick).setUserList(dataContainer.getUserList(sprite,
+					((UserListBrick) brick).setUserList(dataContainer.getLocalList(sprite,
 							((UserListBrick) brick).getUserList().getName()));
 				}
 			}

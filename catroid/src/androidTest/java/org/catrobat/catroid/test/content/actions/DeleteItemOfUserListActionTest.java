@@ -53,9 +53,9 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserList(TEST_USER_LIST_NAME);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().addGlobalList(TEST_USER_LIST_NAME);
 		userList = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserList(null, TEST_USER_LIST_NAME);
+				.getLocalList(null, TEST_USER_LIST_NAME);
 		userList.setList(INITIALIZED_LIST_VALUES);
 		INITIALIZED_LIST_VALUES.clear();
 		INITIALIZED_LIST_VALUES.add(1.0);

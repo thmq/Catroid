@@ -46,7 +46,7 @@ public class SetVariableActionTest extends AndroidTestCase {
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentScene().getDataContainer().addGlobalVariable(TEST_USERVARIABLE);
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(null, TEST_USERVARIABLE);
 		super.setUp();
