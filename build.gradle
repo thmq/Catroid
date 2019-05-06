@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.1'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
     }
 }
@@ -14,7 +14,7 @@ repositories {
     mavenCentral()
 }
 
-apply plugin: 'android-sdk-manager'
+//apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
@@ -146,7 +146,7 @@ def getCurrentGitBranch() {
 
 android {
     compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    buildToolsVersion '25.0.0'
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
@@ -205,7 +205,7 @@ android {
         textReport true
         xmlReport true
         htmlReport false
-        xmlOutput file("build/reports/lint.xml")
+        xmlOutput file("build/reports/lint-report.xml")
     }
 }
 
